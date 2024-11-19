@@ -1,0 +1,21 @@
+[project]
+name = "brain_data_factory"
+version = "0.0.1"
+authors = [
+  { name="THULLIEZ Jérémy", email="j.thulliez@gmail.com" },
+]
+description = "Module de travail pour les projets datas"
+readme = "README.md"
+requires-python = ">=3.8"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: Apache License",
+    "Operating System :: OS Independent",
+]
+dependencies = [
+
+]
+
+[project.urls]
+Homepage = "https://github.com/JeremZed/bdf"
+Issues = "https://github.com/JeremZed/bdf/issues"
