@@ -1,22 +1,25 @@
 from bdf.tools import Tools
 
+import pandas as pd
+
 class Dataset:
     """
         Gestion du dataset
     """
 
-    def init(self, data, options={}):
+    def __init__(self, data, options={}):
         self.options = options
 
-        if 'verbose' not in self.options:
-            self.options['verbose'] = 0
+        self.verbose = self.options['verbose'] if 'verbose' in self.options else 0
+        self.name = self.options['name'] if 'name' in self.options else Tools.random_id()
 
         # raz des attributs et chargement des données
         self.reset().load_data(data)
 
     def reset(self):
         """ remise à zéro des attributs """
-        Tools.log("reseting ... ", self.verbose)
+
+        Tools.log("reseting dataset... ", self.verbose)
 
         self.df = None
 
@@ -38,7 +41,8 @@ class Dataset:
                 # si fichier existe, check de l'extension
                 # pour chargement via pandas
                 # csv, json
-
+        if type(data) == "object":
+            pass
         # si type dataframe alors simple set
             # Tools.log("dataframe affecté avec succès. ")
 
