@@ -34,8 +34,7 @@ class Tools:
                 raising (bool, optionnel): Si True, lève une exception lorsque le chemin est incorrect ou inaccessible. Par défaut, True.
 
             Raises:
-                FileNotFoundError: Si le dossier spécifié dans `pathfile` n'existe pas.
-                Exception: Si le chemin spécifié pour le fichier de log est invalide ou incorrect.
+                FileNotFoundError: Si le dossier/fichier n'existe pas.
 
             Exemple:
                 >>> Tools.log("Un message de log", level=1, show=True, write=True, threshold=1)
@@ -70,18 +69,79 @@ class Tools:
                             raise FileNotFoundError(f"Dossier introuvable : {dirname}")
                 else:
                     if raising :
-                        raise Exception(f"Chemin introuvable : {pathfile}")
+                        raise FileNotFoundError(f"Chemin introuvable : {pathfile}")
 
-    def random_id(length=12, pattern=None, uids=[], chars_special=None, excludes_chars=[]):
-        """ Permet de générer un id aléatoirement """
+    def random_id(length=12, pattern=None, uids=None, chars_special=None, excludes_chars=None):
+        """
+            Génère un identifiant aléatoire selon des critères spécifiés.
+
+            Args:
+                length (int, optional):
+                    Longueur de l'identifiant généré. Par défaut, 12.
+                pattern (list, optional):
+                    Modèle à utiliser pour générer l'identifiant. Chaque caractère du modèle peut correspondre à :
+                        - "%s" : lettre minuscule.
+                        - "%S" : lettre majuscule.
+                        - "%d" : chiffre.
+                        - "%x" : caractère spécial.
+                        Tout autre caractère est utilisé tel quel.
+                    Si `None`, un identifiant standard est généré sans contrainte.
+                uids (list, optional):
+                    Liste des identifiants existants pour éviter les doublons. Par défaut, une liste vide.
+                chars_special (string, optional):
+                    Ensemble des caractères spéciaux utilisables. Par défaut, `"-_!?@$*."`.
+                excludes_chars (list, optional):
+                    Liste des caractères à exclure lors de la génération. Par défaut, une liste vide.
+
+            Returns:
+                str: Identifiant généré qui respecte les critères spécifiés.
+
+            Raises:
+                RecursionError: Si un identifiant unique ne peut pas être généré après plusieurs tentatives.
+                ValueError : Si un paramètre n'est pas du bon type.
+
+            Notes:
+                - Si aucun `pattern` n'est fourni, l'identifiant est généré en utilisant un mélange de lettres
+                majuscules, minuscules, chiffres et caractères spéciaux.
+                - Les caractères exclus dans `excludes_chars` ne sont jamais inclus dans l'identifiant généré.
+                - Si l'identifiant généré existe déjà dans `uids`, la fonction est rappelée de manière récursive
+                pour tenter de générer un nouvel identifiant unique.
+        """
 
         sequence_chars_upper = "ABCDEFGHIJKLMNOPQRSTUVWXTZ"
         sequence_chars_lower = sequence_chars_upper.lower()
         sequence_digits = "0123456789"
         sequence_chars_special = chars_special if chars_special is not None else "-_!?@$*."
 
+        if not isinstance(sequence_chars_special, str):
+            raise ValueError("le paramètre chars_special doit être une chaîne de caractère.")
+
+        if chars_special is not None:
+            if not all(char.isprintable() and not char.isspace() for char in chars_special):
+                raise ValueError("le paramètre chars_special contient des caractères non valides (espaces ou non imprimables).")
+
+        if uids is None:
+            uids = []
+
+        if excludes_chars is None:
+            excludes_chars = []
+
+        if not isinstance(length, int) or length <= 0:
+            raise ValueError("le paramètre length doit être un entier positif.")
+
+        if not isinstance(uids, list):
+            raise ValueError("le paramètre uids doit être une liste.")
+
+        if not isinstance(excludes_chars, list):
+            raise ValueError("le paramètre excludes_chars doit être une liste.")
+
+
         sequence_chars = sequence_chars_upper + sequence_chars_lower + sequence_digits + sequence_chars_special
         id = ""
+
+        diff_chars = set(sequence_chars) - set(excludes_chars)
+        if not diff_chars:
+            raise ValueError("Tous les caractères possibles sont exclus. Impossible de générer un identifiant.")
 
         # Génération d'un id aléatoire standard respectant la taille passé en paramètre
         if pattern is None:
@@ -89,35 +149,39 @@ class Tools:
                 ch = Tools.get_random_element(sequence_chars, excludes_chars)
                 id = id + ch
         else:
+
+            if not isinstance(pattern, list) or len(pattern) == 0:
+                raise ValueError("Le paramètre pattern doit une liste contenant au moins un élément.")
+
+            all_sequences = {
+                "%s": sequence_chars_lower,
+                "%S": sequence_chars_upper,
+                "%d": sequence_digits,
+                "%x": sequence_chars_special
+            }
+
             for c in pattern:
-                # Si il s'agit d'un caractère alphabétique en minuscule
-                if c == "%s":
-                    ch = Tools.get_random_element(sequence_chars_lower, excludes_chars)
-                # Si il s'agit d'un caractère alphabétique en majuscule
-                elif c == "%S":
-                    ch = Tools.get_random_element(sequence_chars_upper, excludes_chars)
-                # Si il s'agit d'un caractère numérique
-                elif c == "%d":
-                    ch = Tools.get_random_element(sequence_digits, excludes_chars)
-                # Si il s'agit d'un caractère spécial
-                elif c == "%x":
-                    ch = Tools.get_random_element(sequence_chars_special, excludes_chars)
+                if c in all_sequences:
+                        ch = Tools.get_random_element(all_sequences[c], excludes_chars)
                 else:
                     ch = c
 
                 id = id + ch
 
+        uids_set = set(uids)
         # On vérifie si l'id généré n'est pas un id déjà présent dans la liste
-        if id in uids:
-            return Tools.random_id(length=length, pattern=pattern, uids=uids)
+        if id in uids_set:
+            return Tools.random_id(length, pattern, uids, chars_special, excludes_chars)
 
         return id
 
     def get_random_element(items, excludes=[]):
         """
-        Permet de retourner un élément aléatoire de la liste items tout faisant attention que l'élément sélectionné
-        n'appartient pas à la liste des items à ne pas inclure
+            Retourne un élément aléatoire de la liste items, en excluant les éléments non autorisés.
         """
-        item = random.choice(items)
+        elements = [item for item in items if item not in excludes]
 
-        return item if item not in excludes else Tools.get_random_element(items, excludes)
+        if not elements:
+            raise ValueError("Aucun élément n'est disponible pour la sélection.")
+
+        return random.choice(elements)

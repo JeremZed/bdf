@@ -1,59 +1,105 @@
 from bdf.tools import Tools
 
 import pandas as pd
+import numpy as np
+import os
 
 class Dataset:
     """
         Gestion du dataset
     """
 
-    def __init__(self, data, options={}):
-        self.options = options
+    def __init__(self, data, options=None, **kwargs):
+        """
+        Initialise le dataset et charge les données.
 
-        self.verbose = self.options['verbose'] if 'verbose' in self.options else 0
-        self.name = self.options['name'] if 'name' in self.options else Tools.random_id()
+        Args:
+            data (str | pd.DataFrame | np.ndarray | list | dict):
+                Données à charger. Peut être un chemin de fichier ou des données en mémoire.
+            options (dict, optional):
+                Options supplémentaires :
+                - 'verbose' (int) : Niveau de détail pour les logs (par défaut 0).
+                - 'name' (str) : Nom du dataset (par défaut, généré aléatoirement).
+            kwargs : Arguments supplémentaires pour les fonctions de chargement.
+        """
+        self.options = options or {}
+
+        self.verbose = self.options.get('verbose', 0)
+        self.name = self.options.get('name', Tools.random_id())
 
         # raz des attributs et chargement des données
-        self.reset().load_data(data)
+        self.reset().load_data(data, **kwargs)
 
     def reset(self):
-        """ remise à zéro des attributs """
-
-        Tools.log("reseting dataset... ", self.verbose)
+        """
+            Réinitialise les attributs du dataset.
+        """
+        Tools.log("Réinitialisation du dataset...", self.verbose)
 
         self.df = None
 
-        Tools.log("reset done.", self.verbose)
+        Tools.log("Réinitialisation terminée.", self.verbose)
 
         return self
 
-    def load_data(self, data, **kwarg):
+    def _load_from_file(self, filepath, **kwargs):
         """
-        permet de charger les données dynamiquement
-        gestion du type de la variable pour creer
-        au final une instance de DataFrame
+        Charge des données à partir d'un fichier.
+
+        Args:
+            filepath (str): Chemin du fichier.
+            kwargs : Arguments supplémentaires pour les fonctions de pandas.
+
+        Returns:
+            pd.DataFrame: DataFrame chargé à partir du fichier.
+        """
+        extension = filepath.split('.')[-1]
+        loaders = {
+            "csv": pd.read_csv,
+            "json": pd.read_json,
+            "xlsx": pd.read_excel,
+        }
+        if extension not in loaders:
+            raise ValueError(f"Extension non prise en charge : {extension}")
+
+        try:
+            return loaders[extension](filepath, **kwargs)
+        except Exception as e:
+            raise ValueError(f"Erreur lors du chargement du fichier {filepath}: {e}")
+
+
+    def load_data(self, data, **kwargs):
+        """
+        Charge les données et les transforme en DataFrame.
+
+        Args:
+            data (str | pd.DataFrame | np.ndarray | list | dict):
+                Données à charger.
+            kwargs : Arguments supplémentaires pour les fonctions de chargement.
+
+        Raises:
+            ValueError: Si le type de données n'est pas pris en charge.
+            FileNotFoundError: Si le chemin du fichier est invalide.
         """
 
-        Tools.log("loading data...", self.verbose)
+        Tools.log("Chargement des données...", self.verbose)
 
-        # si type string alors
-            # check de l'existence du fichier
-                # si fichier existe, check de l'extension
-                # pour chargement via pandas
-                # csv, json
-        if type(data) == "object":
-            pass
-        # si type dataframe alors simple set
-            # Tools.log("dataframe affecté avec succès. ")
+        if isinstance(data, str):
+            if not os.path.exists(data):
+                raise FileNotFoundError(f"Fichier introuvable : {data}")
+            self.df = self._load_from_file(data, **kwargs)
 
-        # si type numpy array alors création d'un df
-            # Tools.log("dataframe créé avec succès à partir d'un numpy array")
+        elif isinstance(data, pd.DataFrame):
+            self.df = data
 
-        # si type list alors création d'un df
+        elif isinstance(data, np.ndarray):
+            self.df = pd.DataFrame(data)
 
-        # si type dict alors création d'un df
+        elif isinstance(data, (list, dict)):
+            self.df = pd.DataFrame(data)
 
-        # si aucun cas alors exception
-            # raise Exception("ce type de données n'est pas pris en charge. ")
+        else:
+            raise ValueError(f"Type de données non pris en charge : {type(data)}")
 
+        Tools.log("Données chargées avec succès.", self.verbose)
         return self
