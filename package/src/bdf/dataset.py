@@ -1,4 +1,5 @@
 from bdf.tools import Tools
+from bdf.visualization import Viz
 
 import pandas as pd
 import numpy as np
@@ -298,7 +299,7 @@ class Dataset:
             items = self.df.loc[ self.df[filter].duplicated(keep=False), : ]
 
         else:
-            items = self.df.duplicated(keep=False)
+            items = self.df.loc[self.df.duplicated(keep=False), :]
 
         if show:
             return items
@@ -404,14 +405,14 @@ class Dataset:
         if show_heatmap:
             fig = plt.figure(figsize=figsize)
             ax = fig.add_subplot(1,1,1)
-            sns.heatmap(c, cbar=True , annot=False, cmap="coolwarm", fmt="0.2f", ax=ax)
+            sns.heatmap(c, cbar=True , annot=True, cmap="coolwarm", fmt="0.2f", ax=ax)
             plt.title("Heatmap des corrélations")
             plt.tight_layout()
             plt.show()
 
         return c
 
-    def top_values(self, n=10, filter=None):
+    def top_values(self, n=10, filter=None, show_graph=False, nb_cols=3, w_graph=5, h_graph=5, show_y=False):
         """
         Retourne les n valeurs les plus fréquentes pour chaque colonne ou une colonne spécifique.
 
@@ -423,15 +424,41 @@ class Dataset:
             pd.Series or pd.DataFrame: Les top n valeurs pour chaque colonne ou pour la colonne filtrée.
         """
 
-        a = []
-
         if filter is None:
             filter = self.df.columns
 
-        for c in filter:
-            a.append({c : self.df[c].value_counts().head(n)})
+        data = {}
 
-        return a
+        for column in filter:
+
+            counts = self.df[column].value_counts().head(n)
+
+            data[column] = {
+                "value": counts.index.tolist(),
+                "count": counts.values.tolist(),
+            }
+
+        # le double en-tête
+        header = pd.MultiIndex.from_product([filter, ['value', 'count']])
+
+        rows = []
+        for i in range(n):
+            row = []
+            for column in filter:
+                values = data[column]["value"]
+                counts = data[column]["count"]
+
+                # si on dépasse la taille des value_counts
+                row.extend([values[i] if i < len(values) else None,
+                            counts[i] if i < len(counts) else None])
+            rows.append(row)
+
+        result = pd.DataFrame(rows, columns=header)
+
+        if show_graph:
+            Viz.plot_top_values(result, nb_cols=nb_cols, w_graph=w_graph, h_graph=h_graph, show_y=show_y)
+
+        return result
 
     def filter_rows(self, condition):
         """
@@ -464,7 +491,7 @@ class Dataset:
 
     def merge(self, other, on, how='inner'):
         """
-        TODO Revoir les arguments de la fonction pour être flexible avec la fonction de pandas
+        TODO Revoir les arguments de la fonction pour être flexible avec la fonction de pandas et la tester
 
         Fusionne le dataset avec un autre Dataset ou DataFrame.
 
