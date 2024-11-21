@@ -1,8 +1,7 @@
 import os
 import pytest
-from datetime import datetime
-from unittest.mock import patch
-from io import StringIO
+import pandas as pd
+import numpy as np
 
 from bdf.tools import Tools
 
@@ -183,3 +182,70 @@ def test_recursive_id_generation():
     existing_ids = ["ABCDEF" for _ in range(100)]  # Crée une situation potentielle de conflit
     new_id = Tools.random_id(length=6, uids=existing_ids)
     assert new_id not in existing_ids
+
+def test_all_numeric_columns():
+    """Test avec un DataFrame contenant uniquement des colonnes numériques."""
+    df = pd.DataFrame({
+        "col1": [1, 2, 3],
+        "col2": [4.5, 5.6, 6.7],
+        "col3": [0, -1, 2]
+    })
+    assert Tools.is_all_numeric(df) is True
+
+def test_mixed_columns():
+    """Test avec un DataFrame contenant des colonnes numériques et non numériques."""
+    df = pd.DataFrame({
+        "col1": [1, 2, 3],
+        "col2": ["a", "b", "c"],
+        "col3": [4.5, 5.6, 6.7]
+    })
+    assert Tools.is_all_numeric(df) is False
+
+def test_all_non_numeric_columns():
+    """Test avec un DataFrame contenant uniquement des colonnes non numériques."""
+    df = pd.DataFrame({
+        "col1": ["x", "y", "z"],
+        "col2": ["a", "b", "c"]
+    })
+    assert Tools.is_all_numeric(df) is False
+
+def test_empty_dataframe():
+    """Test avec un DataFrame vide."""
+    df = pd.DataFrame()
+    assert Tools.is_all_numeric(df) is True
+
+def test_no_columns_dataframe():
+    """Test avec un DataFrame sans colonnes mais avec des lignes."""
+    df = pd.DataFrame(index=[0, 1, 2])
+    assert Tools.is_all_numeric(df) is True
+
+def test_single_numeric_column():
+    """Test avec un DataFrame contenant une seule colonne numérique."""
+    df = pd.DataFrame({
+        "col1": [1.1, 2.2, 3.3]
+    })
+    assert Tools.is_all_numeric(df) is True
+
+def test_single_non_numeric_column():
+    """Test avec un DataFrame contenant une seule colonne non numérique."""
+    df = pd.DataFrame({
+        "col1": ["a", "b", "c"]
+    })
+    assert Tools.is_all_numeric(df) is False
+
+def test_column_with_nan_values():
+    """Test avec un DataFrame contenant des valeurs NaN dans une colonne numérique."""
+    df = pd.DataFrame({
+        "col1": [1, np.nan, 3],
+        "col2": [4.5, 5.6, np.nan]
+    })
+    assert Tools.is_all_numeric(df) is True
+
+def test_columns_with_different_dtypes():
+    """Test avec un DataFrame contenant des colonnes de types différents."""
+    df = pd.DataFrame({
+        "col1": [1, 2, 3],
+        "col2": [4.5, 5.6, 6.7],
+        "col3": ["a", "b", "c"]
+    })
+    assert Tools.is_all_numeric(df) is False
