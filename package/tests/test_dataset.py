@@ -96,7 +96,7 @@ def test_reset_method():
 
 def test_invalid_data_type():
     """Test un type de données non supporté."""
-    with pytest.raises(ValueError, match="Type de données non pris en charge"):
+    with pytest.raises(ValueError, match="Le type des données est invalide :"):
         Dataset(12345)
 
 def test_logging_verbose(capfd):
@@ -113,3 +113,139 @@ def test_logging_not_verbose(capfd):
     dataset = Dataset(data, options={"verbose": 0})
     captured = capfd.readouterr()
     assert captured.out == ""
+
+
+@pytest.fixture
+def sample_dataset():
+    """Fixture pour créer un jeu de données d'exemple."""
+    data = {
+        "col1": [1, 2, 3, 4, 5],
+        "col2": [5, 4, 3, 2, 1],
+        "col3": [np.nan, 2, 3, np.nan, 5]
+    }
+    df = pd.DataFrame(data)
+    return Dataset(df)
+
+def test_head(sample_dataset):
+    """Test de la fonction head()"""
+    result = sample_dataset.head(3)
+    assert result.shape == (3, 3)  # 3 premières lignes, 3 colonnes
+    assert result["col1"].iloc[0] == 1  # Première ligne de col1 doit être 1
+
+def test_tail(sample_dataset):
+    """Test de la fonction tail()"""
+    result = sample_dataset.tail(2)
+    assert result.shape == (2, 3)  # 2 dernières lignes, 3 colonnes
+    assert result["col1"].iloc[0] == 4  # Première ligne de col1 dans les 2 dernières lignes doit être 4
+
+def test_info(sample_dataset):
+    """Test de la fonction info()"""
+    result = sample_dataset.info()  # info() ne retourne rien, vérifie la sortie dans la console manuellement
+    assert result is None  # Il n'y a pas de valeur retournée par info()
+
+def test_describe(sample_dataset):
+    """Test de la fonction describe()"""
+    result = sample_dataset.describe()
+    assert "col1" in result.columns
+    assert result["col1"]["mean"] == 3  # La moyenne de la colonne col1 doit être 3
+
+def test_shape(sample_dataset):
+    """Test de la fonction shape()"""
+    result = sample_dataset.shape()
+    assert result == (5, 3)  # Le dataset a 5 lignes et 3 colonnes
+
+def test_missing_values(sample_dataset):
+    """Test de la fonction missing_values()"""
+    result = sample_dataset.missing_values()
+    assert result.shape == (3, 2)  # 3 colonnes, 2 valeurs à afficher (ratio et sum)
+    assert result["ratio"].iloc[0] == 0.4  # La proportion de valeurs manquantes dans col3
+
+def test_drop_missing_values(sample_dataset):
+    """Test de la fonction drop_missing_values()"""
+    result = sample_dataset.drop_missing_values()
+    assert result.df.shape == (3, 3)  # Après suppression des lignes avec NaN, il reste 3 lignes
+    assert result.df.isna().sum().sum() == 0  # Il ne devrait plus y avoir de valeurs manquantes
+
+def test_fill_missing(sample_dataset):
+    """Test de la fonction fill_missing() avec stratégie 'mean'"""
+    result = sample_dataset.fill_missing(strategy='mean')
+    assert result.df["col3"].isna().sum() == 0  # Après remplissage, il ne devrait plus y avoir de NaN
+    assert result.df["col3"].iloc[0] == 3.3333333333333335  # Valeur remplie par la moyenne (2+3+5)/3
+
+def test_duplicated_values(sample_dataset):
+    """Test de la fonction duplicated_values()"""
+    result = sample_dataset.duplicated_values()
+    assert result == 0  # Aucune valeur dupliquée dans le dataset
+
+    # Création d'un doublon
+    sample_dataset.df.loc[len(sample_dataset.df.index)] = [3,3,3]
+
+    result = sample_dataset.duplicated_values()
+    assert result == 2  # Maintenant, il y a un doublon
+
+
+def test_drop_duplicated_values(sample_dataset):
+    """Test de la fonction drop_duplicated_values()"""
+    sample_dataset.df.loc[len(sample_dataset.df.index)] = [3,3,3]  # Création d'un doublon
+    sample_dataset.drop_duplicated_values()
+
+    assert sample_dataset.df.shape == (5, 3)  # Après suppression du doublon, il devrait y avoir 4 lignes
+
+def test_dtypes(sample_dataset):
+    """Test de la fonction dtypes()"""
+    result = sample_dataset.dtypes()
+    assert result["col1"] == np.int64
+    assert result["col2"] == np.int64
+    assert result["col3"] == float
+
+    result_count = sample_dataset.dtypes(mode="count")
+
+    assert result_count.iloc[0] == 2  # Il y a 2 colonnes de type int64
+
+def test_convert_dtypes(sample_dataset):
+    """Test de la fonction convert_dtypes()"""
+    result = sample_dataset.convert_dtypes({"col1": np.float64})
+    assert result.df["col1"].dtype == np.float64  # La colonne col1 doit être convertie en float64
+
+def test_normalize(sample_dataset):
+    """Test de la fonction normalize()"""
+    result = sample_dataset.normalize(columns=["col1"])
+    assert result.df["col1"].min() == 0
+    assert result.df["col1"].max() == 1
+
+def test_standardize(sample_dataset):
+    """Test de la fonction standardize()"""
+    result = sample_dataset.standardize(columns=["col1"])
+    assert result.df["col1"].mean() == pytest.approx(0, 1e-6)  # La moyenne doit être proche de 0
+    assert result.df["col1"].std() == pytest.approx(1, 1e-6)  # L'écart-type doit être proche de 1
+
+def test_value_counts(sample_dataset):
+    """Test de la fonction value_counts()"""
+    result = sample_dataset.value_counts("col1")
+    assert result[1] == 1  # La valeur 1 apparaît 1 fois
+    assert result[5] == 1  # La valeur 5 apparaît 1 fois
+
+def test_correlations(sample_dataset):
+    """Test de la fonction correlations()"""
+    result = sample_dataset.correlations()
+    assert result.shape == (3, 3)  # Matrice de corrélation de 3x3
+    assert result["col1"]["col2"] == -1  # La corrélation entre col1 et col2 doit être -1
+
+def test_top_values(sample_dataset):
+    """Test de la fonction top_values()"""
+    result = sample_dataset.top_values(n=2)
+    assert result.shape == (2, 6)  # Il y a 2 lignes et 6 colonnes (2 valeurs + 2 comptages par colonne)
+    assert result["col1"]["value"].iloc[0] == 1  # La première valeur de col1 est 1
+
+def test_filter_rows(sample_dataset):
+    """Test de la fonction filter_rows()"""
+    result = sample_dataset.filter_rows("col1 > 2")
+    assert result.shape == (3, 3)  # 3 lignes doivent respecter la condition
+    assert result["col1"].iloc[0] == 3  # La première valeur de col1 après filtrage doit être 3
+
+def test_add_column(sample_dataset):
+    """Test de la fonction add_column()"""
+    result = sample_dataset.add_column("col4", [10, 20, 30, 40, 50])
+    assert "col4" in result.df.columns  # La nouvelle colonne doit exister
+    assert result.df["col4"].iloc[0] == 10  # La première valeur de col4 doit être 10
+
