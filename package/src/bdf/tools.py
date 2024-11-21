@@ -2,6 +2,8 @@ import os
 from datetime import datetime
 import random
 
+import numpy as np
+
 log_filename = "bdf.log"
 
 class Tools:
@@ -185,3 +187,33 @@ class Tools:
             raise ValueError("Aucun élément n'est disponible pour la sélection.")
 
         return random.choice(elements)
+
+    def is_all_numeric(df):
+        """
+            Vérifie si toutes les colonnes d'un DataFrame sont de type numérique.
+
+            Cette fonction inspecte les types de données des colonnes d'un DataFrame pour déterminer
+            si elles sont toutes de type numérique (par exemple, int, float, etc.).
+
+            Args:
+                df (pd.DataFrame): Le DataFrame à analyser.
+
+            Returns:
+                bool:
+                    - `True` si toutes les colonnes du DataFrame sont de type numérique.
+                    - `False` sinon.
+
+            Exemple:
+                >>> import pandas as pd
+                >>> import numpy as np
+                >>> df1 = pd.DataFrame({"a": [1, 2, 3], "b": [4.5, 5.6, 6.7]})
+                >>> is_all_numeric(df1)
+                True
+                >>> df2 = pd.DataFrame({"a": [1, 2, 3], "b": ["x", "y", "z"]})
+                >>> is_all_numeric(df2)
+                False
+            """
+
+        numeric_columns = df.select_dtypes(include=np.number).columns
+        return len(numeric_columns) == len(df.columns)
+

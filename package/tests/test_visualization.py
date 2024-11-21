@@ -1,7 +1,7 @@
 import pytest
 import pandas as pd
 import numpy as np
-from unittest.mock import patch
+from unittest.mock import patch, MagicMock
 from matplotlib import pyplot as plt
 from bdf.visualization import Viz
 
@@ -75,4 +75,71 @@ def test_plot_top_values_empty_dataframe():
     with pytest.raises(ValueError, match="Le dataset doit être alimenté."):
         Viz.plot_top_values(empty_df, nb_cols=1)
 
+def test_plot_outliers_iqr_valid_input():
+    """Test avec des entrées valides pour vérifier qu'aucune exception n'est levée."""
+    df = pd.DataFrame({
+        "feature1": [10, 12, 13, 500, 11],
+        "feature2": [15, 14, 500, 15, 13],
+    })
+    outliers = pd.DataFrame({
+        "feature1": [False, False, False, True, False],
+        "feature2": [False, False, True, False, False],
+    }, index=df.index)
 
+    with patch("matplotlib.pyplot.show") as mock_show:
+        Viz.plot_outliers_iqr(df, outliers, columns=["feature1", "feature2"])
+        mock_show.assert_called_once()
+
+
+def test_plot_outliers_iqr_empty_dataframe():
+    """Test avec un DataFrame vide pour vérifier qu'une exception est levée."""
+    df = pd.DataFrame()
+    outliers = pd.DataFrame()
+
+    with pytest.raises(ValueError, match="Le dataset doit être alimenté."):
+        Viz.plot_outliers_iqr(df, outliers, columns=[])
+
+
+def test_plot_outliers_iqr_single_column():
+    """Test avec une seule colonne à visualiser."""
+    df = pd.DataFrame({
+        "feature1": [10, 12, 13, 500, 11],
+    })
+    outliers = pd.DataFrame({
+        "feature1": [False, False, False, True, False],
+    }, index=df.index)
+
+    with patch("matplotlib.pyplot.show") as mock_show:
+        Viz.plot_outliers_iqr(df, outliers, columns=["feature1"])
+        mock_show.assert_called_once()
+
+
+def test_plot_outliers_iqr_multiple_columns():
+    """Test avec plusieurs colonnes pour vérifier la disposition des sous-graphiques."""
+    df = pd.DataFrame({
+        "feature1": [10, 12, 13, 500, 11],
+        "feature2": [15, 14, 500, 15, 13],
+        "feature3": [1, 2, 3, 4, 5],
+    })
+    outliers = pd.DataFrame({
+        "feature1": [False, False, False, True, False],
+        "feature2": [False, False, True, False, False],
+        "feature3": [False, False, False, False, False],
+    }, index=df.index)
+
+    with patch("matplotlib.pyplot.show") as mock_show:
+        Viz.plot_outliers_iqr(df, outliers, columns=["feature1", "feature2", "feature3"], nb_cols=2)
+        mock_show.assert_called_once()
+
+def test_plot_outliers_iqr_show_y_ticks():
+    """Test avec l'option `show_y=True` pour vérifier l'ajout des ticks sur l'axe y."""
+    df = pd.DataFrame({
+        "feature1": [10, 12, 13, 500, 11],
+    })
+    outliers = pd.DataFrame({
+        "feature1": [False, False, False, True, False],
+    }, index=df.index)
+
+    with patch("matplotlib.pyplot.show") as mock_show:
+        Viz.plot_outliers_iqr(df, outliers, columns=["feature1"], show_y=True)
+        mock_show.assert_called_once()

@@ -1,10 +1,12 @@
 import matplotlib.pyplot as plt
 import numpy as np
+import seaborn as sns
+import math
 
 class Viz:
 
     @staticmethod
-    def plot_top_values(result_df, nb_cols=3, w_graph=5, h_graph=5, show_y=False):
+    def plot_top_values(result_df, nb_cols=3, w_graph=5, h_graph=5, figsize=None, show_y=False):
         """
         Génère un graphique en barres pour chaque feature d'un DataFrame avec un multi-index,
         représentant les valeurs et leurs comptages.
@@ -48,14 +50,17 @@ class Viz:
             raise ValueError("Le dataset doit être alimenté.")
 
         num_features = len(result_df.columns.levels[0])
-        num_rows = round((num_features / nb_cols))
+        num_rows = math.ceil((num_features / nb_cols))
 
-        fig, axes = plt.subplots(num_rows, nb_cols, figsize=(w_graph * nb_cols, h_graph * num_rows), sharey=False)
+        if figsize is None:
+            figsize = (w_graph * nb_cols, h_graph * num_rows)
+
+        fig, axes = plt.subplots(num_rows, nb_cols, figsize=figsize, sharey=False)
+
+        if num_rows == 1:
+            axes = np.array([axes])
+
         axes = axes.flatten()
-
-        # Gestion du cas où on visualise uniquement une feature
-        if num_features == 1:
-            axes = [axes]
 
         for i, feature in enumerate(result_df.columns.levels[0]):
 
@@ -86,6 +91,87 @@ class Viz:
                 axes[i].set_yticks([])
 
         # On masque les sous-graphiques inutilisés
+        for j in range(i + 1, len(axes)):
+            axes[j].axis("off")
+
+        plt.tight_layout()
+        plt.show()
+
+    def plot_outliers_iqr(df, outliers, columns, nb_cols=2, w_graph=5, h_graph=5, figsize=None, show_y=False):
+        """
+            Affiche des boxplots pour visualiser les valeurs et les outliers d'un DataFrame.
+
+            Cette fonction génère des boxplots pour chaque feature spécifiée et marque les outliers
+            identifiés par la méthode IQR en rouge. Les graphes sont affichés sur plusieurs lignes
+            et colonnes en fonction du nombre de colonnes spécifiées.
+
+            Args:
+                df (pd.DataFrame): Le DataFrame contenant les données à visualiser.
+                outliers (pd.DataFrame): DataFrame de même dimension que `df`, avec des booléens indiquant
+                    les outliers pour chaque colonne (résultat typique de la méthode IQR).
+                columns (list[str]): Liste des noms des colonnes à visualiser.
+                nb_cols (int, optional): Nombre de boxplots affichés par ligne. Par défaut : 2.
+                w_graph (int, optional): Largeur de chaque boxplot. Par défaut : 5.
+                h_graph (int, optional): Hauteur de chaque boxplot. Par défaut : 5.
+                figsize (tuple, optional): Taille de la figure (largeur, hauteur). Si spécifiée, remplace
+                    `w_graph` et `h_graph`. Par défaut : None.
+                show_y (bool, optional): Si True, affiche les ticks de l'axe y pour les boxplots.
+                    Par défaut : False.
+
+            Raises:
+                ValueError: Si le DataFrame `df` est vide.
+
+            Exemple:
+                >>> import pandas as pd
+                >>> import numpy as np
+                >>> import seaborn as sns
+                >>> from matplotlib import pyplot as plt
+                >>> df = pd.DataFrame({
+                ...     'feature1': [10, 12, 13, 500, 11],
+                ...     'feature2': [15, 14, 500, 15, 13],
+                ... })
+                >>> outliers = pd.DataFrame({
+                ...     'feature1': [False, False, False, True, False],
+                ...     'feature2': [False, False, True, False, False],
+                ... }, index=df.index)
+                >>> plot_outliers_iqr(df, outliers, columns=['feature1', 'feature2'])
+
+            Notes:
+                - Les outliers sont affichés en rouge.
+                - Si le nombre total de colonnes à visualiser est impair, les sous-graphiques inutilisés
+                seront masqués.
+            """
+
+        if len(df) == 0:
+            raise ValueError("Le dataset doit être alimenté.")
+
+        num_features = len(columns)
+        num_rows = math.ceil((num_features / nb_cols))
+
+        if figsize is None:
+            figsize = (w_graph * nb_cols, h_graph * num_rows)
+
+        fig, axes = plt.subplots(num_rows, nb_cols, figsize=figsize, sharey=False)
+
+        if num_rows == 1:
+            axes = np.array([axes])
+
+        axes = axes.flatten()
+
+        for i, c in enumerate(columns):
+
+            sns.boxplot(x=df[c], color='lightblue', label='Box', ax=axes[i])
+            sns.scatterplot(x=df[c][outliers[c]], y=[0] * outliers[c].sum(), color='red', label='Outliers', s=100, ax=axes[i])
+
+            # Titre et labels
+            axes[i].set_title(f"Outliers pour {c}", fontsize=12)
+            axes[i].set_xlabel(c, fontsize=10)
+            axes[i].set_ylabel('Valeurs', fontsize=10)
+
+            if show_y:
+                axes[i].set_yticks(np.arange(min(df[c]), max(df[c]) + 1, 1))
+
+        # Masquer les sous-graphes inutilisés si le nombre de features est impair
         for j in range(i + 1, len(axes)):
             axes[j].axis("off")
 

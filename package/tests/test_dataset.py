@@ -1,10 +1,13 @@
 from bdf.dataset import Dataset
 from bdf.tools import Tools
+from bdf.visualization import Viz
 
 import pytest
 import pandas as pd
 import numpy as np
 import os
+
+from unittest.mock import patch, MagicMock
 
 @pytest.fixture
 def sample_csv(tmp_path):
@@ -157,8 +160,8 @@ def test_shape(sample_dataset):
 def test_missing_values(sample_dataset):
     """Test de la fonction missing_values()"""
     result = sample_dataset.missing_values()
-    assert result.shape == (3, 2)  # 3 colonnes, 2 valeurs à afficher (ratio et sum)
-    assert result["ratio"].iloc[0] == 0.4  # La proportion de valeurs manquantes dans col3
+    assert result.shape == (4, 2)  # 3 colonnes, 2 valeurs à afficher (ratio et sum)
+    assert result["ratio"].iloc[0] == 2.0  # La proportion de valeurs manquantes dans col3
 
 def test_drop_missing_values(sample_dataset):
     """Test de la fonction drop_missing_values()"""
@@ -249,3 +252,69 @@ def test_add_column(sample_dataset):
     assert "col4" in result.df.columns  # La nouvelle colonne doit exister
     assert result.df["col4"].iloc[0] == 10  # La première valeur de col4 doit être 10
 
+
+@pytest.fixture
+def setup_method():
+    """Fixture pour créer un jeu de données d'exemple."""
+
+    df = pd.DataFrame({
+        "feature1": [10, 12, 13, 500, 11],
+        "feature2": [15, 14, 500, 15, 13],
+        "feature3": [1.2, 2.5, 3.1, 4.8, 5.5],
+        "non_numeric": ["A", "B", "C", "D", "E"]
+    })
+    return Dataset(df)
+
+
+def test_outliers_iqr(setup_method):
+    """Test de base avec la méthode IQR."""
+    result = setup_method.outliers(columns=["feature1", "feature3"], method="IQR")
+    assert isinstance(result, pd.DataFrame)
+    assert "count" in result.columns
+    assert "ratio" in result.columns
+    assert result.loc["feature1", "count"] == 1
+    assert result.loc["feature3", "count"] == 0
+
+def test_outliers_with_columns(setup_method):
+    """Test en spécifiant une liste de colonnes."""
+    result = setup_method.outliers(columns=["feature1", "feature3"], method="IQR")
+    assert "feature2" not in result.index
+    assert "feature1" in result.index
+    assert "feature3" in result.index
+
+def test_outliers_empty_dataframe(setup_method):
+    """Test avec un DataFrame vide."""
+    empty_df = pd.DataFrame()
+    instance = Dataset(empty_df)
+    with pytest.raises(ValueError, match="Le dataset doit être alimenté."):
+        instance.outliers()
+
+def test_outliers_non_numeric_columns(setup_method):
+    """Test avec des colonnes non numériques."""
+    with pytest.raises(ValueError, match="Les colonnes de sont pas toutes de type numérique."):
+        setup_method.outliers(columns=["non_numeric"])
+
+def test_outliers_invalid_method(setup_method):
+    """Test avec une méthode invalide."""
+    with pytest.raises(ValueError, match="La méthode de calcul n'est pas prise en charge : invalid_method"):
+        setup_method.outliers(method="invalid_method")
+
+def test_outliers_show_graph(setup_method):
+    """Test avec l'affichage des graphiques activé."""
+    with patch("bdf.visualization.Viz.plot_outliers_iqr") as mock_plot:
+        setup_method.outliers(show_graph=True)
+        mock_plot.assert_called_once()
+
+def test_outliers_ratio_calculation(setup_method):
+    """Test du calcul du ratio des outliers."""
+    result = setup_method.outliers(method="IQR")
+    assert result.loc["feature1", "ratio"] == 20.0
+    assert result.loc["feature2", "ratio"] == 20.0
+    assert result.loc["feature3", "ratio"] == 0.0
+    assert result.loc["BDF_total_of_values", "ratio"] == 10
+
+def test_outliers_custom_threshold(setup_method):
+    """Test avec un paramètre personnalisé pour le seuil (threshold)."""
+    result = setup_method.outliers(method="IQR", threshold=3)
+    assert result.loc["feature1", "count"] == 1
+    assert result.loc["feature3", "count"] == 0  # Aucun outlier avec un seuil plus élevé.

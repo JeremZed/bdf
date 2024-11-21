@@ -1,5 +1,6 @@
 from bdf.tools import Tools
 from bdf.visualization import Viz
+from bdf.outliers import Outlier
 
 import pandas as pd
 import numpy as np
@@ -229,7 +230,9 @@ class Dataset:
         """
         a = self.df.isna().sum() / self.df.shape[0]
         df = pd.DataFrame(a, columns=['ratio'])
-        df['sum'] = self.df.isna().sum()
+        df['count'] = self.df.isna().sum()
+
+        df.loc['BDF_total_of_values'] = [ df['count'].sum(), round((df['count'].sum() * 100) / (self.df.shape[0] * self.df.shape[1]), 2)  ]
 
         if show_heatmap == True:
             fig = plt.figure(figsize=figsize)
@@ -412,7 +415,7 @@ class Dataset:
 
         return c
 
-    def top_values(self, n=10, filter=None, show_graph=False, nb_cols=3, w_graph=5, h_graph=5, show_y=False):
+    def top_values(self, n=10, filter=None, show_graph=False, nb_cols=3, w_graph=5, h_graph=5,figsize=None, show_y=False):
         """
         Retourne les n valeurs les plus fréquentes pour chaque colonne ou une colonne spécifique.
 
@@ -456,7 +459,7 @@ class Dataset:
         result = pd.DataFrame(rows, columns=header)
 
         if show_graph:
-            Viz.plot_top_values(result, nb_cols=nb_cols, w_graph=w_graph, h_graph=h_graph, show_y=show_y)
+            Viz.plot_top_values(result, nb_cols=nb_cols, w_graph=w_graph, h_graph=h_graph, figsize=figsize, show_y=show_y)
 
         return result
 
@@ -576,3 +579,100 @@ class Dataset:
 
         return columns
 
+    def has_only_features_numeric(self):
+        """
+            Permet de savoir si le dataset comporte uniquement des features numérique
+        """
+
+        return Tools.is_all_numeric(self.df)
+
+    def outliers(self, columns=None, method="IQR", show_graph=False, nb_cols=2, w_graph=5, h_graph=5, show_y=False, figsize=None, **kwargs):
+        """
+            Identifie et retourne les outliers d'un DataFrame selon la méthode spécifiée.
+
+            Cette fonction calcule les valeurs aberrantes (outliers) pour les colonnes numériques d'un DataFrame,
+            ou pour un sous-ensemble de colonnes spécifié. Par défaut, la méthode utilisée est l'IQR (Interquartile Range).
+            La fonction peut également afficher les graphiques des outliers sous forme de boxplots.
+
+            Args:
+                columns (list[str], optional): Liste des colonnes à analyser. Si `None`, toutes les colonnes numériques
+                    du DataFrame sont utilisées. Par défaut : `None`.
+                method (str, optional): Méthode pour calculer les outliers. Actuellement, seule la méthode `"IQR"` est prise en charge.
+                    Par défaut : `"IQR"`.
+                show_graph (bool, optional): Si `True`, affiche les graphiques des outliers sous forme de boxplots.
+                    Par défaut : `False`.
+                nb_cols (int, optional): Nombre de boxplots affichés par ligne dans le graphique. Par défaut : 2.
+                w_graph (int, optional): Largeur de chaque boxplot en pouces. Par défaut : 5.
+                h_graph (int, optional): Hauteur de chaque boxplot en pouces. Par défaut : 5.
+                show_y (bool, optional): Si `True`, affiche les graduations de l'axe y sur les boxplots. Par défaut : `False`.
+                figsize (tuple, optional): Taille de la figure `(largeur, hauteur)` en pouces. Si spécifié, remplace
+                    `w_graph` et `h_graph`. Par défaut : `None`.
+                **kwargs: Arguments supplémentaires passés à la méthode choisie (par exemple, `threshold` pour l'IQR).
+
+            Raises:
+                ValueError: Si la méthode spécifiée n'est pas prise en charge.
+                ValueError: Si le DataFrame contient des colonnes non numériques.
+                ValueError: Si les outliers ne peuvent pas être calculés pour une raison quelconque.
+
+            Returns:
+                pd.DataFrame: Un DataFrame contenant :
+                    - `count`: Le nombre d'outliers pour chaque colonne.
+                    - `ratio`: Le pourcentage d'outliers par rapport au total des lignes du DataFrame.
+                    - Une ligne supplémentaire "BDF_total_of_values" avec le total des outliers et le ratio global.
+
+            Affichage:
+                Si `show_graph` est activé, des boxplots avec les valeurs aberrantes mises en évidence en rouge
+                sont affichés.
+
+            Exemple:
+                >>> df = pd.DataFrame({
+                ...     "feature1": [10, 12, 13, 500, 11],
+                ...     "feature2": [15, 14, 500, 15, 13],
+                ... })
+                >>> obj = YourClass(df)
+                >>> outliers = obj.outliers(columns=["feature1", "feature2"], method="IQR", show_graph=True)
+                >>> print(outliers)
+                            count  ratio
+                feature1       1  20.0
+                feature2       1  20.0
+                BDF_total_of_values  2  20.0
+
+            Notes:
+                - D'autres méthodes comme Z-score, Isolation Forest, ou One-Class SVM peuvent être ajoutées dans le futur.
+                - La ligne "BDF_total_of_values" représente les totaux combinés des outliers et leur ratio global.
+            """
+
+        if method not in ['IQR']:
+            raise ValueError(f"La méthode de calcul n'est pas prise en charge : {method}")
+
+        if columns is None:
+            columns = self.df.select_dtypes(include=np.number).columns.tolist()
+
+        if Tools.is_all_numeric(self.df[columns]) == False:
+            raise ValueError(f"Les colonnes de sont pas toutes de type numérique.")
+
+        outliers = None
+        if method == "IQR":
+            outliers = Outlier.iqr(self.df, columns, **kwargs)
+
+        # TODO method : Z-score
+        # TODO method : Méthode de Tukey
+        # TODO method : Isolation Forest
+        # TODO method : One-Class SVM
+        # TODO method : Méthode des Quartiles et Découpage par Décile
+        # TODO method : DBSCAN (Density-Based Spatial Clustering of Applications with Noise)
+        # TODO method : Clustering K-means
+        # TODO method : Méthodes basées sur la régression (par exemple, régression robuste)
+
+        if outliers is None:
+            raise ValueError("Impossible de calculer les outliers.")
+
+        if show_graph:
+            Viz.plot_outliers_iqr(self.df, outliers, columns, nb_cols=nb_cols, w_graph=w_graph, h_graph=h_graph, figsize=figsize, show_y=show_y)
+
+        result = pd.DataFrame(outliers.sum(), columns=['count'])
+        result['ratio'] = result['count'].apply(lambda x : round((x * 100) / len(self.df), 2) )
+
+        result.loc['BDF_total_of_values'] = [ result['count'].sum(), round((result['count'].sum() * 100) / (self.df.shape[0] * self.df.shape[1]), 2)  ]
+
+        return result
