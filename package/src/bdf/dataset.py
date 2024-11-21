@@ -586,7 +586,7 @@ class Dataset:
 
         return Tools.is_all_numeric(self.df)
 
-    def outliers(self, columns=None, method="IQR", show_graph=False, nb_cols=2, w_graph=5, h_graph=5, show_y=False, figsize=None, **kwargs):
+    def outliers(self, columns=None, method=Outlier.METHOD_IQR, show_graph=False, nb_cols=2, w_graph=5, h_graph=5, show_y=False, figsize=None, **kwargs):
         """
             Identifie et retourne les outliers d'un DataFrame selon la méthode spécifiée.
 
@@ -642,20 +642,19 @@ class Dataset:
                 - La ligne "BDF_total_of_values" représente les totaux combinés des outliers et leur ratio global.
             """
 
-        if method not in ['IQR']:
+        if method not in [Outlier.METHOD_IQR, Outlier.METHOD_ZSCORE]:
             raise ValueError(f"La méthode de calcul n'est pas prise en charge : {method}")
 
         if columns is None:
             columns = self.df.select_dtypes(include=np.number).columns.tolist()
 
-        if Tools.is_all_numeric(self.df[columns]) == False:
-            raise ValueError(f"Les colonnes de sont pas toutes de type numérique.")
-
         outliers = None
-        if method == "IQR":
+        if method == Outlier.METHOD_IQR:
             outliers = Outlier.iqr(self.df, columns, **kwargs)
 
-        # TODO method : Z-score
+        if method == Outlier.METHOD_ZSCORE:
+            outliers, z_scores = Outlier.zscore(self.df, columns, **kwargs)
+
         # TODO method : Méthode de Tukey
         # TODO method : Isolation Forest
         # TODO method : One-Class SVM
@@ -668,7 +667,10 @@ class Dataset:
             raise ValueError("Impossible de calculer les outliers.")
 
         if show_graph:
-            Viz.plot_outliers_iqr(self.df, outliers, columns, nb_cols=nb_cols, w_graph=w_graph, h_graph=h_graph, figsize=figsize, show_y=show_y)
+            Viz.plot_outliers(self.df, outliers, columns, method=method, nb_cols=nb_cols, w_graph=w_graph, h_graph=h_graph, figsize=figsize, show_y=show_y)
+
+            if method == Outlier.METHOD_ZSCORE:
+                Viz.plot_zscore(z_scores, columns, nb_cols=nb_cols, w_graph=w_graph, h_graph=h_graph, figsize=figsize)
 
         result = pd.DataFrame(outliers.sum(), columns=['count'])
         result['ratio'] = result['count'].apply(lambda x : round((x * 100) / len(self.df), 2) )

@@ -3,6 +3,8 @@ import numpy as np
 import seaborn as sns
 import math
 
+from bdf.tools import Tools
+
 class Viz:
 
     @staticmethod
@@ -97,7 +99,7 @@ class Viz:
         plt.tight_layout()
         plt.show()
 
-    def plot_outliers_iqr(df, outliers, columns, nb_cols=2, w_graph=5, h_graph=5, figsize=None, show_y=False):
+    def plot_outliers(df, outliers, columns, method, nb_cols=2, w_graph=5, h_graph=5, figsize=None, show_y=False):
         """
             Affiche des boxplots pour visualiser les valeurs et les outliers d'un DataFrame.
 
@@ -110,6 +112,7 @@ class Viz:
                 outliers (pd.DataFrame): DataFrame de même dimension que `df`, avec des booléens indiquant
                     les outliers pour chaque colonne (résultat typique de la méthode IQR).
                 columns (list[str]): Liste des noms des colonnes à visualiser.
+                method (str): Méthode de detection des outliers.
                 nb_cols (int, optional): Nombre de boxplots affichés par ligne. Par défaut : 2.
                 w_graph (int, optional): Largeur de chaque boxplot. Par défaut : 5.
                 h_graph (int, optional): Hauteur de chaque boxplot. Par défaut : 5.
@@ -145,6 +148,9 @@ class Viz:
         if len(df) == 0:
             raise ValueError("Le dataset doit être alimenté.")
 
+        if Tools.all_features_present(columns, df.columns) == False:
+            raise ValueError("Toutes les features ne sont pas disponible.")
+
         num_features = len(columns)
         num_rows = math.ceil((num_features / nb_cols))
 
@@ -153,6 +159,8 @@ class Viz:
 
         fig, axes = plt.subplots(num_rows, nb_cols, figsize=figsize, sharey=False)
 
+        fig.suptitle(f'Représentation des Outliers avec la méthode : {method}', fontsize=16, y=1.0)
+
         if num_rows == 1:
             axes = np.array([axes])
 
@@ -160,7 +168,7 @@ class Viz:
 
         for i, c in enumerate(columns):
 
-            sns.boxplot(x=df[c], color='lightblue', label='Box', ax=axes[i])
+            sns.boxplot(x=df[c], color='lightblue', label='Box', ax=axes[i], showfliers=False)
             sns.scatterplot(x=df[c][outliers[c]], y=[0] * outliers[c].sum(), color='red', label='Outliers', s=100, ax=axes[i])
 
             # Titre et labels
@@ -170,6 +178,76 @@ class Viz:
 
             if show_y:
                 axes[i].set_yticks(np.arange(min(df[c]), max(df[c]) + 1, 1))
+
+        # Masquer les sous-graphes inutilisés si le nombre de features est impair
+        for j in range(i + 1, len(axes)):
+            axes[j].axis("off")
+
+
+        plt.tight_layout()
+        plt.show()
+
+    @staticmethod
+    def plot_zscore(z_scores, columns, nb_cols=2, w_graph=5, h_graph=5, figsize=None):
+        """
+            Affiche les histogrammes des Z-scores pour chaque feature spécifiée.
+
+            Cette fonction génère un graphique par feature dans lequel l'histogramme des Z-scores est affiché, permettant ainsi de visualiser la distribution des Z-scores pour chaque colonne. Les graphiques sont organisés en plusieurs lignes et colonnes, en fonction du nombre de colonnes spécifié.
+
+            Args:
+                z_scores (pd.DataFrame): DataFrame contenant les Z-scores calculés pour chaque feature.
+                columns (list[str]): Liste des noms des colonnes à visualiser dans le graphique.
+                nb_cols (int, optional): Nombre de graphiques (boxplots) par ligne. Par défaut : 2.
+                w_graph (int, optional): Largeur de chaque graphique. Par défaut : 5.
+                h_graph (int, optional): Hauteur de chaque graphique. Par défaut : 5.
+                figsize (tuple, optional): Taille de la figure (largeur, hauteur). Si spécifiée, remplace `w_graph` et `h_graph`. Par défaut : None.
+
+            Raises:
+                ValueError: Si le DataFrame `z_scores` est vide ou si les colonnes spécifiées ne sont pas présentes dans le DataFrame.
+
+            Exemple:
+                >>> import pandas as pd
+                >>> import numpy as np
+                >>> z_scores = pd.DataFrame({
+                >>>     'feature1': [0.5, -0.8, 1.2, -0.3, 2.0],
+                >>>     'feature2': [1.5, -1.3, 0.8, 0.2, -0.7]
+                >>> })
+                >>> plot_zscore(z_scores, columns=['feature1', 'feature2'])
+
+            Notes:
+                - Les Z-scores sont affichés dans un histogramme pour chaque feature.
+                - Si le nombre de graphiques est impair, les sous-graphiques inutilisés seront masqués.
+                - Chaque histogramme représente la distribution des Z-scores pour la feature correspondante.
+
+        """
+
+        if len(z_scores) == 0:
+            raise ValueError("Le dataset doit être alimenté.")
+
+        if Tools.all_features_present(columns, z_scores.columns) == False:
+            raise ValueError("Toutes les features ne sont pas disponible.")
+
+        num_features = len(columns)
+        num_rows = math.ceil((num_features / nb_cols))
+
+        if figsize is None:
+            figsize = (w_graph * nb_cols, h_graph * num_rows)
+
+        fig, axes = plt.subplots(num_rows, nb_cols, figsize=figsize, sharey=False)
+        fig.suptitle(f'Représentation de la distribution des zscores', fontsize=16, y=1.0)
+
+        if num_rows == 1:
+            axes = np.array([axes])
+
+        axes = axes.flatten()
+
+        for i, c in enumerate(columns):
+
+            axes[i].hist(z_scores[c], bins=15, alpha=0.5, color='g')
+
+            axes[i].set_title(f"zscore pour {c}", fontsize=12)
+            axes[i].set_xlabel('Z-score', fontsize=10)
+            axes[i].set_ylabel('Fréquence', fontsize=10)
 
         # Masquer les sous-graphes inutilisés si le nombre de features est impair
         for j in range(i + 1, len(axes)):
