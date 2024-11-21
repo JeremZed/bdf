@@ -3,6 +3,8 @@ import numpy as np
 import seaborn as sns
 import math
 
+from bdf.tools import Tools
+
 class Viz:
 
     @staticmethod
@@ -146,6 +148,9 @@ class Viz:
         if len(df) == 0:
             raise ValueError("Le dataset doit être alimenté.")
 
+        if Tools.all_features_present(columns, df.columns) == False:
+            raise ValueError("Toutes les features ne sont pas disponible.")
+
         num_features = len(columns)
         num_rows = math.ceil((num_features / nb_cols))
 
@@ -215,6 +220,12 @@ class Viz:
                 - Chaque histogramme représente la distribution des Z-scores pour la feature correspondante.
 
         """
+
+        if len(z_scores) == 0:
+            raise ValueError("Le dataset doit être alimenté.")
+
+        if Tools.all_features_present(columns, z_scores.columns) == False:
+            raise ValueError("Toutes les features ne sont pas disponible.")
 
         num_features = len(columns)
         num_rows = math.ceil((num_features / nb_cols))

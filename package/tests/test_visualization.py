@@ -4,6 +4,8 @@ import numpy as np
 from unittest.mock import patch, MagicMock
 from matplotlib import pyplot as plt
 from bdf.visualization import Viz
+from bdf.outliers import Outlier
+# from matplotlib.testing.decorators import cleanup
 
 @pytest.fixture
 def sample_df():
@@ -87,7 +89,7 @@ def test_plot_outliers_iqr_valid_input():
     }, index=df.index)
 
     with patch("matplotlib.pyplot.show") as mock_show:
-        Viz.plot_outliers_iqr(df, outliers, columns=["feature1", "feature2"])
+        Viz.plot_outliers(df, outliers, method=Outlier.METHOD_IQR, columns=["feature1", "feature2"])
         mock_show.assert_called_once()
 
 
@@ -97,7 +99,7 @@ def test_plot_outliers_iqr_empty_dataframe():
     outliers = pd.DataFrame()
 
     with pytest.raises(ValueError, match="Le dataset doit être alimenté."):
-        Viz.plot_outliers_iqr(df, outliers, columns=[])
+        Viz.plot_outliers(df, outliers, columns=[], method=Outlier.METHOD_IQR)
 
 
 def test_plot_outliers_iqr_single_column():
@@ -110,7 +112,7 @@ def test_plot_outliers_iqr_single_column():
     }, index=df.index)
 
     with patch("matplotlib.pyplot.show") as mock_show:
-        Viz.plot_outliers_iqr(df, outliers, columns=["feature1"])
+        Viz.plot_outliers(df, outliers, columns=["feature1"], method=Outlier.METHOD_IQR)
         mock_show.assert_called_once()
 
 
@@ -128,7 +130,7 @@ def test_plot_outliers_iqr_multiple_columns():
     }, index=df.index)
 
     with patch("matplotlib.pyplot.show") as mock_show:
-        Viz.plot_outliers_iqr(df, outliers, columns=["feature1", "feature2", "feature3"], nb_cols=2)
+        Viz.plot_outliers(df, outliers, columns=["feature1", "feature2", "feature3"], nb_cols=2, method=Outlier.METHOD_IQR)
         mock_show.assert_called_once()
 
 def test_plot_outliers_iqr_show_y_ticks():
@@ -141,5 +143,29 @@ def test_plot_outliers_iqr_show_y_ticks():
     }, index=df.index)
 
     with patch("matplotlib.pyplot.show") as mock_show:
-        Viz.plot_outliers_iqr(df, outliers, columns=["feature1"], show_y=True)
+        Viz.plot_outliers(df, outliers, columns=["feature1"], method=Outlier.METHOD_IQR, show_y=True)
         mock_show.assert_called_once()
+
+
+def test_plot_zscore_empty_z_scores():
+    """
+    Teste si la fonction lève une exception pour un DataFrame vide.
+    """
+    z_scores = pd.DataFrame()
+    columns = ['feature1', 'feature2']
+
+    with pytest.raises(ValueError, match="Le dataset doit être alimenté."):
+        Viz.plot_zscore(z_scores, columns)
+
+def test_plot_zscore_invalid_columns():
+    """
+    Teste si la fonction lève une exception lorsque les colonnes spécifiées ne sont pas dans le DataFrame.
+    """
+    z_scores = pd.DataFrame({
+        'feature1': [0.5, -0.8, 1.2, -0.3, 2.0],
+        'feature2': [1.5, -1.3, 0.8, 0.2, -0.7]
+    })
+    columns = ['feature3']  # Colonne inexistante
+
+    with pytest.raises(ValueError, match="Toutes les features ne sont pas disponible"):
+        Viz.plot_zscore(z_scores, columns)

@@ -106,3 +106,70 @@ def test_iqr_with_missing_values():
     })
 
     pd.testing.assert_frame_equal(outliers, expected)
+
+def test_zscore_valid_input():
+    # Préparation des données
+    df = pd.DataFrame({
+        'feature1': [10, 12, 13, 500, 11],
+        'feature2': [15, 14, 500, 15, 13]
+    })
+    features = ['feature1', 'feature2']
+    threshold = 1
+
+    # Appel de la fonction
+    outliers, z_scores = Outlier.zscore(df, features, threshold)
+
+    # Vérification de la taille des résultats
+    assert outliers.shape == df.shape
+    assert z_scores.shape == df.shape
+
+    # Vérification des valeurs spécifiques
+    assert outliers['feature1'][3]  # L'indice 3 doit être un outlier
+    assert not outliers['feature1'][0]  # L'indice 0 ne doit pas être un outlier
+
+    assert outliers['feature2'][2]  # L'indice 2 doit être un outlier
+    assert not outliers['feature2'][0]  # L'indice 0 ne doit pas être un outlier
+
+def test_zscore_empty_dataframe():
+    df = pd.DataFrame()
+    features = ['feature1', 'feature2']
+
+    with pytest.raises(ValueError, match="Le dataset doit être alimenté."):
+        Outlier.zscore(df, features)
+
+def test_zscore_non_numeric_features():
+    df = pd.DataFrame({
+        'feature1': [10, 12, 13, 500, 11],
+        'feature2': ['a', 'b', 'c', 'd', 'e']  # Non-numeric feature
+    })
+    features = ['feature1', 'feature2']
+
+    with pytest.raises(ValueError, match="Les colonnes de sont pas toutes de type numérique."):
+        Outlier.zscore(df, features)
+
+def test_zscore_custom_threshold():
+    df = pd.DataFrame({
+        'feature1': [10, 12, 13, 50, 11],
+        'feature2': [15, 14, 50, 15, 13]
+    })
+    features = ['feature1', 'feature2']
+    threshold = 0.5  # Seuil plus bas pour détecter les outliers
+
+    outliers, z_scores = Outlier.zscore(df, features, threshold)
+
+    # Vérification des outliers avec le seuil réduit
+    assert outliers['feature1'][3]  # L'indice 3 doit être un outlier
+    assert outliers['feature2'][2]  # L'indice 2 doit être un outlier
+
+def test_zscore_no_outliers():
+    df = pd.DataFrame({
+        'feature1': [10, 11, 12, 13, 14],
+        'feature2': [15, 16, 17, 18, 19]
+    })
+    features = ['feature1', 'feature2']
+    threshold = 3
+
+    outliers, z_scores = Outlier.zscore(df, features, threshold)
+
+    # Aucune colonne ne doit contenir d'outliers
+    assert not outliers.any().any()

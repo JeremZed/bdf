@@ -217,3 +217,16 @@ class Tools:
         numeric_columns = df.select_dtypes(include=np.number).columns
         return len(numeric_columns) == len(df.columns)
 
+    def all_features_present(features, columns):
+        """
+        Vérifie si toutes les features spécifiées sont présentes dans la liste des colonnes.
+
+        Args:
+            features (list[str]): Liste des features à vérifier.
+            columns (list[str]): Liste des colonnes disponibles.
+
+        Returns:
+            bool: True si toutes les features sont présentes, False sinon.
+        """
+        return all(f in columns for f in features)
+
