@@ -19,3 +19,6 @@ dependencies = [
 [project.urls]
 Homepage = "https://github.com/JeremZed/bdf"
 Issues = "https://github.com/JeremZed/bdf/issues"
+
+[project.scripts]
+bdf = "bdf.__main__:main"

@@ -655,8 +655,7 @@ class Dataset:
         if method == Outlier.METHOD_ZSCORE:
             outliers, z_scores = Outlier.zscore(self.df, columns, **kwargs)
 
-        # TODO method : Méthode de Tukey
-        # TODO method : Isolation Forest
+
         # TODO method : One-Class SVM
         # TODO method : Méthode des Quartiles et Découpage par Décile
         # TODO method : DBSCAN (Density-Based Spatial Clustering of Applications with Noise)
