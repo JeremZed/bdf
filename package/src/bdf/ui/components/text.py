@@ -1,22 +1,17 @@
 
 from bdf.ui.component import Component
 
-class Text(Component):
-    """ Classe représentant le composant Text UI """
+class TextBlock(Component):
+    """ Classe représentant le composant Text Block UI """
 
-    def __init__(self, content, **kwargs):
+    def __init__(self,*args, **kwargs):
+        super().__init__(*args,**kwargs)
+        self.tag = 'p'
 
-        super().__init__(**kwargs)
+class TextInline(Component):
+    """ Classe représentant le composant Text Inline UI """
 
-        self.content = content
-
-
-    def build(self, refresh=False):
-        """
-            Permet de retourner le DOM
-        """
-
-        if self.dom is None or refresh == True:
-            self.dom = f'<p {self.get_style()} >{self.content}</p>'
-
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.tag = 'span'
 
