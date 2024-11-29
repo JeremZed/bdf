@@ -9,7 +9,7 @@ class FeatureExtraction:
         self.list_of_chars = "abcdefghijklmnopqrstuvwxyz0123456789_"
         self.chars_to_index = {}
         self.index_to_chars = {}
-        self.vector_size = 50
+        self.vector_size = 25
 
         self.df = df
         self.columns = df.columns
@@ -29,22 +29,21 @@ class FeatureExtraction:
         else:
             return output + [0] * (self.vector_size - len(output))
 
-    @staticmethod
-    def run(series):
+    def run(self, series):
 
         features = {
             'is_null' : 0
         }
-        col_name = series.name
-
+        name_to_vector = self.conv_to_vec(series.name)
+        features = features | dict(zip([f"f_{x}" for x in range(len(name_to_vector))], name_to_vector))
         if series.empty or series.isnull().all():
-            features['is_null'] = True
+            features['is_null'] = 1
 
-            return features
+        return features
 
 t = pd.DataFrame(data={"user_id" : [0,1,2]})
 f = FeatureExtraction(t)
-f.conv_to_vec('poiuytrezaqsdfghjklmnbvcxw')
+f.run(t['user_id'])
 
 
 class FeatureTypeNumerical:
