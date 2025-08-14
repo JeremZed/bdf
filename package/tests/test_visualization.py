@@ -3,13 +3,12 @@ import pandas as pd
 import numpy as np
 from unittest.mock import patch, MagicMock
 from matplotlib import pyplot as plt
-from bdf.visualization import Viz
-from bdf.outliers import Outlier
-# from matplotlib.testing.decorators import cleanup
+from bdf.operations.visualization import Viz
+from bdf.operations.outliers import Outlier
 
 @pytest.fixture
 def sample_df():
-    """Fixture pour créer un DataFrame d'exemple pour les top values."""
+    """Fixture to create a sample DataFrame for top values."""
     data = {
         ('col1', 'value'): ['A', 'B', 'C', 'D', 'E'],
         ('col1', 'count'): [5, 10, 15, 10, 5],
@@ -20,65 +19,59 @@ def sample_df():
     return df
 
 def test_plot_top_values_basic(sample_df):
-    """Test de la méthode plot_top_values pour vérifier qu'elle génère des graphiques sans erreur."""
-    # Mock plt.show pour éviter d'afficher les graphiques pendant les tests
+    """Tests the plot_top_values method to verify that it generates charts without errors."""
     with patch.object(plt, 'show'):
         Viz.plot_top_values(sample_df, nb_cols=2)
 
 def test_plot_top_values_with_different_columns(sample_df):
-    """Test pour vérifier que la méthode gère correctement un nombre différent de colonnes."""
+    """Tests to verify that the method correctly handles a different number of columns."""
     with patch.object(plt, 'show'):
         Viz.plot_top_values(sample_df, nb_cols=1)
 
 def test_plot_top_values_titles_and_labels(sample_df):
-    """Test pour vérifier que les titres et les étiquettes sont correctement définis."""
+    """Tests to verify that titles and labels are correctly set."""
     with patch.object(plt, 'show'):
         Viz.plot_top_values(sample_df, nb_cols=1)
 
-    # Vérifier si le titre et les labels sont présents
-    fig = plt.gcf()  # Récupère la figure actuelle
-    ax = fig.get_axes()[0]  # Récupère le premier axe
-    assert ax.get_title() == "Top Values for col1"  # Vérifie que le titre est correct
-    assert ax.get_xlabel() == "Values"  # Vérifie l'étiquette de l'axe X
-    assert ax.get_ylabel() == "Counts"  # Vérifie l'étiquette de l'axe Y
+    fig = plt.gcf()
+    ax = fig.get_axes()[0]
+    assert ax.get_title() == "Top Values for col1"
+    assert ax.get_xlabel() == "Values"
+    assert ax.get_ylabel() == "Counts"
 
 def test_plot_top_values_y_axis(sample_df):
-    """Test pour vérifier le comportement de l'axe Y en fonction du paramètre show_y."""
-    # Test avec show_y=True
+    """Tests to verify the behavior of the Y-axis based on the show_y parameter."""
     with patch.object(plt, 'show'):
         Viz.plot_top_values(sample_df, nb_cols=1, show_y=True)
 
-    # Vérifier que l'axe Y est défini
     fig = plt.gcf()
     ax = fig.get_axes()[0]
-    assert len(ax.get_yticks()) > 0  # Vérifie que l'axe Y a des graduations
+    assert len(ax.get_yticks()) > 0
 
-    # Test avec show_y=False
     with patch.object(plt, 'show'):
         Viz.plot_top_values(sample_df, nb_cols=1, show_y=False)
 
-    # Vérifier que l'axe Y est masqué
     fig = plt.gcf()
     ax = fig.get_axes()[0]
-    assert len(ax.get_yticks()) == 0  # Vérifie que l'axe Y n'a pas de graduations
+    assert len(ax.get_yticks()) == 0
 
 def test_plot_top_values_subplots_layout(sample_df):
-    """Test pour vérifier la disposition des sous-graphiques (subplots)"""
+    """Tests to verify the layout of the subplots."""
     with patch.object(plt, 'show'):
         Viz.plot_top_values(sample_df, nb_cols=2)
 
     fig = plt.gcf()
     axes = fig.get_axes()
-    assert len(axes) > 1  # Vérifie qu'il y a plus d'un graphique (sous-graphiques)
+    assert len(axes) > 1
 
 def test_plot_top_values_empty_dataframe():
-    """Test avec un DataFrame vide pour vérifier la gestion des cas vides."""
+    """Tests with an empty DataFrame to verify handling of empty cases."""
     empty_df = pd.DataFrame(columns=[('col1', 'value'), ('col1', 'count')])
-    with pytest.raises(ValueError, match="Le dataset doit être alimenté."):
+    with pytest.raises(ValueError, match="The dataset must be populated."):
         Viz.plot_top_values(empty_df, nb_cols=1)
 
 def test_plot_outliers_iqr_valid_input():
-    """Test avec des entrées valides pour vérifier qu'aucune exception n'est levée."""
+    """Tests with valid inputs to verify that no exception is raised."""
     df = pd.DataFrame({
         "feature1": [10, 12, 13, 500, 11],
         "feature2": [15, 14, 500, 15, 13],
@@ -94,16 +87,16 @@ def test_plot_outliers_iqr_valid_input():
 
 
 def test_plot_outliers_iqr_empty_dataframe():
-    """Test avec un DataFrame vide pour vérifier qu'une exception est levée."""
+    """Tests with an empty DataFrame to verify that an exception is raised."""
     df = pd.DataFrame()
     outliers = pd.DataFrame()
 
-    with pytest.raises(ValueError, match="Le dataset doit être alimenté."):
+    with pytest.raises(ValueError, match="The dataset must be populated."):
         Viz.plot_outliers(df, outliers, columns=[], method=Outlier.METHOD_IQR)
 
 
 def test_plot_outliers_iqr_single_column():
-    """Test avec une seule colonne à visualiser."""
+    """Tests with a single column to visualize."""
     df = pd.DataFrame({
         "feature1": [10, 12, 13, 500, 11],
     })
@@ -117,7 +110,7 @@ def test_plot_outliers_iqr_single_column():
 
 
 def test_plot_outliers_iqr_multiple_columns():
-    """Test avec plusieurs colonnes pour vérifier la disposition des sous-graphiques."""
+    """Tests with multiple columns to verify the layout of the subplots."""
     df = pd.DataFrame({
         "feature1": [10, 12, 13, 500, 11],
         "feature2": [15, 14, 500, 15, 13],
@@ -134,7 +127,7 @@ def test_plot_outliers_iqr_multiple_columns():
         mock_show.assert_called_once()
 
 def test_plot_outliers_iqr_show_y_ticks():
-    """Test avec l'option `show_y=True` pour vérifier l'ajout des ticks sur l'axe y."""
+    """Tests with the `show_y=True` option to verify the addition of y-axis ticks."""
     df = pd.DataFrame({
         "feature1": [10, 12, 13, 500, 11],
     })
@@ -149,23 +142,23 @@ def test_plot_outliers_iqr_show_y_ticks():
 
 def test_plot_zscore_empty_z_scores():
     """
-    Teste si la fonction lève une exception pour un DataFrame vide.
+    Tests if the function raises an exception for an empty DataFrame.
     """
     z_scores = pd.DataFrame()
     columns = ['feature1', 'feature2']
 
-    with pytest.raises(ValueError, match="Le dataset doit être alimenté."):
+    with pytest.raises(ValueError, match="The dataset must be populated."):
         Viz.plot_zscore(z_scores, columns)
 
 def test_plot_zscore_invalid_columns():
     """
-    Teste si la fonction lève une exception lorsque les colonnes spécifiées ne sont pas dans le DataFrame.
+    Tests if the function raises an exception when the specified columns are not in the DataFrame.
     """
     z_scores = pd.DataFrame({
         'feature1': [0.5, -0.8, 1.2, -0.3, 2.0],
         'feature2': [1.5, -1.3, 0.8, 0.2, -0.7]
     })
-    columns = ['feature3']  # Colonne inexistante
+    columns = ['feature3']
 
-    with pytest.raises(ValueError, match="Toutes les features ne sont pas disponible"):
+    with pytest.raises(ValueError, match="Not all features are available."):
         Viz.plot_zscore(z_scores, columns)

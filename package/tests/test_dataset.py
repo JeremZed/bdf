@@ -1,6 +1,6 @@
-from bdf.dataset import Dataset
-from bdf.tools import Tools
-from bdf.visualization import Viz
+from bdf.core.dataset import Dataset
+from bdf.utils import Tools
+from bdf.operations.visualization import Viz
 
 import pytest
 import pandas as pd
@@ -11,7 +11,7 @@ from unittest.mock import patch, MagicMock
 
 @pytest.fixture
 def sample_csv(tmp_path):
-    """Crée un fichier CSV temporaire pour les tests."""
+    """Creates a temporary CSV file for tests."""
     data = "col1,col2,col3\n1,2,3\n4,5,6"
     filepath = tmp_path / "sample.csv"
     filepath.write_text(data)
@@ -19,7 +19,7 @@ def sample_csv(tmp_path):
 
 @pytest.fixture
 def sample_json(tmp_path):
-    """Crée un fichier JSON temporaire pour les tests."""
+    """Creates a temporary JSON file for tests."""
     data = [{"col1": 1, "col2": 2}, {"col1": 4, "col2": 5}]
     filepath = tmp_path / "sample.json"
     filepath.write_text(pd.DataFrame(data).to_json(orient="records"))
@@ -27,91 +27,91 @@ def sample_json(tmp_path):
 
 @pytest.fixture
 def sample_excel(tmp_path):
-    """Crée un fichier Excel temporaire pour les tests."""
+    """Creates a temporary Excel file for tests."""
     data = pd.DataFrame({"col1": [1, 4], "col2": [2, 5]})
     filepath = tmp_path / "sample.xlsx"
     data.to_excel(filepath, index=False)
     return filepath
 
 def test_load_from_dataframe():
-    """Test le chargement depuis un DataFrame."""
+    """Tests loading from a DataFrame."""
     data = pd.DataFrame({"col1": [1, 2], "col2": [3, 4]})
     dataset = Dataset(data)
     assert dataset.df.equals(data)
 
 def test_load_from_numpy_array():
-    """Test le chargement depuis un tableau numpy."""
+    """Tests loading from a numpy array."""
     data = np.array([[1, 2, 3], [4, 5, 6]])
     dataset = Dataset(data)
     assert dataset.df.shape == (2, 3)
     assert (dataset.df.values == data).all()
 
 def test_load_from_list():
-    """Test le chargement depuis une liste."""
+    """Tests loading from a list."""
     data = [[1, 2, 3], [4, 5, 6]]
     dataset = Dataset(data)
     assert dataset.df.shape == (2, 3)
     assert dataset.df.iloc[0, 0] == 1
 
 def test_load_from_dict():
-    """Test le chargement depuis un dictionnaire."""
+    """Tests loading from a dictionary."""
     data = {"col1": [1, 4], "col2": [2, 5]}
     dataset = Dataset(data)
     assert dataset.df.shape == (2, 2)
     assert list(dataset.df.columns) == ["col1", "col2"]
 
 def test_load_from_csv(sample_csv):
-    """Test le chargement depuis un fichier CSV."""
+    """Tests loading from a CSV file."""
     dataset = Dataset(str(sample_csv))
     assert dataset.df.shape == (2, 3)
     assert list(dataset.df.columns) == ["col1", "col2", "col3"]
 
 def test_load_from_json(sample_json):
-    """Test le chargement depuis un fichier JSON."""
+    """Tests loading from a JSON file."""
     dataset = Dataset(str(sample_json))
     assert dataset.df.shape == (2, 2)
     assert list(dataset.df.columns) == ["col1", "col2"]
 
 def test_load_from_excel(sample_excel):
-    """Test le chargement depuis un fichier Excel."""
+    """Tests loading from an Excel file."""
     dataset = Dataset(str(sample_excel))
     assert dataset.df.shape == (2, 2)
     assert list(dataset.df.columns) == ["col1", "col2"]
 
 def test_file_not_found():
-    """Test le cas où le fichier n'existe pas."""
-    with pytest.raises(FileNotFoundError, match="Fichier introuvable"):
+    """Tests the case where the file does not exist."""
+    with pytest.raises(FileNotFoundError, match="File not found"):
         Dataset("invalid_path.csv")
 
 def test_unsupported_extension(tmp_path):
-    """Test le chargement d'un fichier avec une extension non supportée."""
+    """Tests loading a file with an unsupported extension."""
     unsupported_file = tmp_path / "data.txt"
     unsupported_file.write_text("data")
-    with pytest.raises(ValueError, match="Extension non prise en charge"):
+    with pytest.raises(ValueError, match="Unsupported extension"):
         Dataset(str(unsupported_file))
 
 def test_reset_method():
-    """Test la méthode reset pour réinitialiser l'état."""
+    """Tests the reset method to reset the state."""
     data = pd.DataFrame({"col1": [1, 2], "col2": [3, 4]})
     dataset = Dataset(data)
     dataset.reset()
     assert dataset.df is None
 
 def test_invalid_data_type():
-    """Test un type de données non supporté."""
-    with pytest.raises(ValueError, match="Le type des données est invalide :"):
+    """Tests an unsupported data type."""
+    with pytest.raises(ValueError, match="Invalid data type"):
         Dataset(12345)
 
 def test_logging_verbose(capfd):
-    """Test que les logs s'affichent lorsque verbose est activé."""
+    """Tests that logs are displayed when verbose is enabled."""
     data = pd.DataFrame({"col1": [1, 2], "col2": [3, 4]})
     dataset = Dataset(data, options={"verbose": 1})
     captured = capfd.readouterr()
-    assert "Réinitialisation du dataset" in captured.out
-    assert "Données chargées avec succès" in captured.out
+    assert "Resetting dataset" in captured.out
+    assert "Data loaded successfully" in captured.out
 
 def test_logging_not_verbose(capfd):
-    """Test que les logs ne s'affichent pas lorsque verbose est désactivé."""
+    """Tests that logs are not displayed when verbose is disabled."""
     data = pd.DataFrame({"col1": [1, 2], "col2": [3, 4]})
     dataset = Dataset(data, options={"verbose": 0})
     captured = capfd.readouterr()
@@ -120,7 +120,7 @@ def test_logging_not_verbose(capfd):
 
 @pytest.fixture
 def sample_dataset():
-    """Fixture pour créer un jeu de données d'exemple."""
+    """Fixture to create a sample dataset."""
     data = {
         "col1": [1, 2, 3, 4, 5],
         "col2": [5, 4, 3, 2, 1],
@@ -130,72 +130,72 @@ def sample_dataset():
     return Dataset(df)
 
 def test_head(sample_dataset):
-    """Test de la fonction head()"""
+    """Tests the head() function."""
     result = sample_dataset.head(3)
-    assert result.shape == (3, 3)  # 3 premières lignes, 3 colonnes
-    assert result["col1"].iloc[0] == 1  # Première ligne de col1 doit être 1
+    assert result.shape == (3, 3)
+    assert result["col1"].iloc[0] == 1
 
 def test_tail(sample_dataset):
-    """Test de la fonction tail()"""
+    """Tests the tail() function."""
     result = sample_dataset.tail(2)
-    assert result.shape == (2, 3)  # 2 dernières lignes, 3 colonnes
-    assert result["col1"].iloc[0] == 4  # Première ligne de col1 dans les 2 dernières lignes doit être 4
+    assert result.shape == (2, 3)
+    assert result["col1"].iloc[0] == 4
 
 def test_info(sample_dataset):
-    """Test de la fonction info()"""
-    result = sample_dataset.info()  # info() ne retourne rien, vérifie la sortie dans la console manuellement
-    assert result is None  # Il n'y a pas de valeur retournée par info()
+    """Tests the info() function."""
+    result = sample_dataset.info()
+    assert result is None
 
 def test_describe(sample_dataset):
-    """Test de la fonction describe()"""
+    """Tests the describe() function."""
     result = sample_dataset.describe()
     assert "col1" in result.columns
-    assert result["col1"]["mean"] == 3  # La moyenne de la colonne col1 doit être 3
+    assert result["col1"]["mean"] == 3
 
 def test_shape(sample_dataset):
-    """Test de la fonction shape()"""
+    """Tests the shape() function."""
     result = sample_dataset.shape()
-    assert result == (5, 3)  # Le dataset a 5 lignes et 3 colonnes
+    assert result == (5, 3)
 
 def test_missing_values(sample_dataset):
-    """Test de la fonction missing_values()"""
+    """Tests the missing_values() function."""
     result = sample_dataset.missing_values()
-    assert result.shape == (4, 2)  # 3 colonnes, 2 valeurs à afficher (ratio et sum)
-    assert result["ratio"].iloc[0] == 2.0  # La proportion de valeurs manquantes dans col3
+    assert result.shape == (4, 2)
+    assert result["ratio"].iloc[0] == 2.0
 
 def test_drop_missing_values(sample_dataset):
-    """Test de la fonction drop_missing_values()"""
+    """Tests the drop_missing_values() function."""
     result = sample_dataset.drop_missing_values()
-    assert result.df.shape == (3, 3)  # Après suppression des lignes avec NaN, il reste 3 lignes
-    assert result.df.isna().sum().sum() == 0  # Il ne devrait plus y avoir de valeurs manquantes
+    assert result.df.shape == (3, 3)
+    assert result.df.isna().sum().sum() == 0
 
 def test_fill_missing(sample_dataset):
-    """Test de la fonction fill_missing() avec stratégie 'mean'"""
+    """Tests the fill_missing() function with 'mean' strategy."""
     result = sample_dataset.fill_missing(strategy='mean')
-    assert result.df["col3"].isna().sum() == 0  # Après remplissage, il ne devrait plus y avoir de NaN
-    assert result.df["col3"].iloc[0] == 3.3333333333333335  # Valeur remplie par la moyenne (2+3+5)/3
+    assert result.df["col3"].isna().sum() == 0
+    assert result.df["col3"].iloc[0] == 3.3333333333333335
 
 def test_duplicated_values(sample_dataset):
-    """Test de la fonction duplicated_values()"""
+    """Tests the duplicated_values() function."""
     result = sample_dataset.duplicated_values()
-    assert result == 0  # Aucune valeur dupliquée dans le dataset
+    assert result == 0
 
-    # Création d'un doublon
+    # Create a duplicate
     sample_dataset.df.loc[len(sample_dataset.df.index)] = [3,3,3]
 
     result = sample_dataset.duplicated_values()
-    assert result == 2  # Maintenant, il y a un doublon
+    assert result == 2
 
 
 def test_drop_duplicated_values(sample_dataset):
-    """Test de la fonction drop_duplicated_values()"""
-    sample_dataset.df.loc[len(sample_dataset.df.index)] = [3,3,3]  # Création d'un doublon
+    """Tests the drop_duplicated_values() function."""
+    sample_dataset.df.loc[len(sample_dataset.df.index)] = [3,3,3]
     sample_dataset.drop_duplicated_values()
 
-    assert sample_dataset.df.shape == (5, 3)  # Après suppression du doublon, il devrait y avoir 4 lignes
+    assert sample_dataset.df.shape == (5, 3)
 
 def test_dtypes(sample_dataset):
-    """Test de la fonction dtypes()"""
+    """Tests the dtypes() function."""
     result = sample_dataset.dtypes()
     assert result["col1"] == np.int64
     assert result["col2"] == np.int64
@@ -203,59 +203,59 @@ def test_dtypes(sample_dataset):
 
     result_count = sample_dataset.dtypes(mode="count")
 
-    assert result_count.iloc[0] == 2  # Il y a 2 colonnes de type int64
+    assert result_count.iloc[0] == 2
 
 def test_convert_dtypes(sample_dataset):
-    """Test de la fonction convert_dtypes()"""
+    """Tests the convert_dtypes() function."""
     result = sample_dataset.convert_dtypes({"col1": np.float64})
-    assert result.df["col1"].dtype == np.float64  # La colonne col1 doit être convertie en float64
+    assert result.df["col1"].dtype == np.float64
 
 def test_normalize(sample_dataset):
-    """Test de la fonction normalize()"""
+    """Tests the normalize() function."""
     result = sample_dataset.normalize(columns=["col1"])
     assert result.df["col1"].min() == 0
     assert result.df["col1"].max() == 1
 
 def test_standardize(sample_dataset):
-    """Test de la fonction standardize()"""
+    """Tests the standardize() function."""
     result = sample_dataset.standardize(columns=["col1"])
-    assert result.df["col1"].mean() == pytest.approx(0, 1e-6)  # La moyenne doit être proche de 0
-    assert result.df["col1"].std() == pytest.approx(1, 1e-6)  # L'écart-type doit être proche de 1
+    assert result.df["col1"].mean() == pytest.approx(0, 1e-6)
+    assert result.df["col1"].std() == pytest.approx(1, 1e-6)
 
 def test_value_counts(sample_dataset):
-    """Test de la fonction value_counts()"""
+    """Tests the value_counts() function."""
     result = sample_dataset.value_counts("col1")
-    assert result[1] == 1  # La valeur 1 apparaît 1 fois
-    assert result[5] == 1  # La valeur 5 apparaît 1 fois
+    assert result[1] == 1
+    assert result[5] == 1
 
 def test_correlations(sample_dataset):
-    """Test de la fonction correlations()"""
+    """Tests the correlations() function."""
     result = sample_dataset.correlations()
-    assert result.shape == (3, 3)  # Matrice de corrélation de 3x3
-    assert result["col1"]["col2"] == -1  # La corrélation entre col1 et col2 doit être -1
+    assert result.shape == (3, 3)
+    assert result["col1"]["col2"] == -1
 
 def test_top_values(sample_dataset):
-    """Test de la fonction top_values()"""
+    """Tests the top_values() function."""
     result = sample_dataset.top_values(n=2)
-    assert result.shape == (2, 6)  # Il y a 2 lignes et 6 colonnes (2 valeurs + 2 comptages par colonne)
-    assert result["col1"]["value"].iloc[0] == 1  # La première valeur de col1 est 1
+    assert result.shape == (2, 6)
+    assert result["col1"]["value"].iloc[0] == 1
 
 def test_filter_rows(sample_dataset):
-    """Test de la fonction filter_rows()"""
+    """Tests the filter_rows() function."""
     result = sample_dataset.filter_rows("col1 > 2")
-    assert result.shape == (3, 3)  # 3 lignes doivent respecter la condition
-    assert result["col1"].iloc[0] == 3  # La première valeur de col1 après filtrage doit être 3
+    assert result.shape == (3, 3)
+    assert result["col1"].iloc[0] == 3
 
 def test_add_column(sample_dataset):
-    """Test de la fonction add_column()"""
+    """Tests the add_column() function."""
     result = sample_dataset.add_column("col4", [10, 20, 30, 40, 50])
-    assert "col4" in result.df.columns  # La nouvelle colonne doit exister
-    assert result.df["col4"].iloc[0] == 10  # La première valeur de col4 doit être 10
+    assert "col4" in result.df.columns
+    assert result.df["col4"].iloc[0] == 10
 
 
 @pytest.fixture
 def setup_method():
-    """Fixture pour créer un jeu de données d'exemple."""
+    """Fixture to create a sample dataset."""
 
     df = pd.DataFrame({
         "feature1": [10, 12, 13, 500, 11],
@@ -267,7 +267,7 @@ def setup_method():
 
 
 def test_outliers_iqr(setup_method):
-    """Test de base avec la méthode IQR."""
+    """Basic test with the IQR method."""
     result = setup_method.outliers(columns=["feature1", "feature3"], method="IQR")
     assert isinstance(result, pd.DataFrame)
     assert "count" in result.columns
@@ -276,37 +276,37 @@ def test_outliers_iqr(setup_method):
     assert result.loc["feature3", "count"] == 0
 
 def test_outliers_with_columns(setup_method):
-    """Test en spécifiant une liste de colonnes."""
+    """Test by specifying a list of columns."""
     result = setup_method.outliers(columns=["feature1", "feature3"], method="IQR")
     assert "feature2" not in result.index
     assert "feature1" in result.index
     assert "feature3" in result.index
 
 def test_outliers_empty_dataframe(setup_method):
-    """Test avec un DataFrame vide."""
+    """Test with an empty DataFrame."""
     empty_df = pd.DataFrame()
     instance = Dataset(empty_df)
-    with pytest.raises(ValueError, match="Le dataset doit être alimenté."):
+    with pytest.raises(ValueError, match="The dataset must be populated."):
         instance.outliers()
 
 def test_outliers_non_numeric_columns(setup_method):
-    """Test avec des colonnes non numériques."""
-    with pytest.raises(ValueError, match="Les colonnes de sont pas toutes de type numérique."):
+    """Test with non-numeric columns."""
+    with pytest.raises(ValueError, match="The columns are not all of a numerical type."):
         setup_method.outliers(columns=["non_numeric"])
 
 def test_outliers_invalid_method(setup_method):
-    """Test avec une méthode invalide."""
-    with pytest.raises(ValueError, match="La méthode de calcul n'est pas prise en charge : invalid_method"):
+    """Test with an invalid method."""
+    with pytest.raises(ValueError, match="The calculation method is not supported: invalid_method"):
         setup_method.outliers(method="invalid_method")
 
 def test_outliers_show_graph(setup_method):
-    """Test avec l'affichage des graphiques activé."""
-    with patch("bdf.visualization.Viz.plot_outliers_iqr") as mock_plot:
+    """Test with graph display enabled."""
+    with patch("bdf.operations.visualization.Viz.plot_outliers") as mock_plot:
         setup_method.outliers(show_graph=True)
         mock_plot.assert_called_once()
 
 def test_outliers_ratio_calculation(setup_method):
-    """Test du calcul du ratio des outliers."""
+    """Test the calculation of the outlier ratio."""
     result = setup_method.outliers(method="IQR")
     assert result.loc["feature1", "ratio"] == 20.0
     assert result.loc["feature2", "ratio"] == 20.0
@@ -314,7 +314,7 @@ def test_outliers_ratio_calculation(setup_method):
     assert result.loc["BDF_total_of_values", "ratio"] == 10
 
 def test_outliers_custom_threshold(setup_method):
-    """Test avec un paramètre personnalisé pour le seuil (threshold)."""
+    """Test with a custom parameter for the threshold."""
     result = setup_method.outliers(method="IQR", threshold=3)
     assert result.loc["feature1", "count"] == 1
-    assert result.loc["feature3", "count"] == 0  # Aucun outlier avec un seuil plus élevé.
+    assert result.loc["feature3", "count"] == 0

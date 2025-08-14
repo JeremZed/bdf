@@ -3,18 +3,18 @@ import pytest
 import pandas as pd
 import numpy as np
 
-from bdf.tools import Tools
+from bdf.utils import Tools
 
 LOG_FILENAME = "bdf.log"
-LOG_FILE_PATH = "test_logs"  # Répertoire temporaire pour les tests de fichiers
+LOG_FILE_PATH = "test_logs"
 
 @pytest.fixture(scope="module")
 def create_log_directory():
-    """Créer un répertoire pour stocker les logs pendant les tests"""
+    """Creates a directory to store logs during tests."""
     if not os.path.exists(LOG_FILE_PATH):
         os.makedirs(LOG_FILE_PATH)
     yield
-    # Nettoyage après les tests
+    # Cleanup after tests
     if os.path.exists(LOG_FILE_PATH):
         for file in os.listdir(LOG_FILE_PATH):
             os.remove(os.path.join(LOG_FILE_PATH, file))
@@ -22,28 +22,25 @@ def create_log_directory():
 
 
 def test_log_to_console(capsys):
-    """Test si le message de log est affiché correctement dans la console"""
+    """Tests if the log message is displayed correctly in the console."""
     message = "Test log message"
     level = 1
     Tools.log(message, level, show=True, write=False, threshold=1)
 
-    # Capturer la sortie de la console
     captured = capsys.readouterr()
 
-    # Vérifier que le message est bien dans la sortie
     assert message in captured.out
     assert "[LOG]" in captured.out
 
 
 def test_log_to_file(create_log_directory):
-    """Test si le message de log est écrit correctement dans un fichier"""
+    """Tests if the log message is written correctly to a file."""
     message = "Test log file"
     level = 1
     pathfile = os.path.join(LOG_FILE_PATH, LOG_FILENAME)
 
     Tools.log(message, level, show=False, write=True, threshold=1, pathfile=pathfile)
 
-    # Vérifier si le fichier existe et contient le message
     assert os.path.exists(pathfile)
     with open(pathfile, 'r') as f:
         content = f.read()
@@ -51,39 +48,36 @@ def test_log_to_file(create_log_directory):
 
 
 def test_log_with_invalid_directory():
-    """Test si une exception est levée lorsque le dossier est introuvable"""
+    """Tests if an exception is raised when the directory is not found."""
     message = "Test invalid directory"
     level = 1
-    invalid_path = "invalid_directory"  # Dossier inexistant
+    invalid_path = "invalid_directory/some.log"
 
-    # Vérifier que l'exception est levée
     with pytest.raises(FileNotFoundError):
         Tools.log(message, level, show=False, write=True, threshold=1, pathfile=invalid_path)
 
 
 def test_log_with_invalid_pathfile():
-    """Test si une exception est levée pour un chemin de fichier incorrect"""
+    """Tests if an exception is raised for an incorrect file path."""
     message = "Test invalid pathfile"
     level = 1
-    invalid_pathfile = "invalid_path_file.txt"  # Fichier invalide
+    invalid_pathfile = "invalid_path_file.txt"
 
     with pytest.raises(Exception):
         Tools.log(message, level, show=False, write=True, threshold=1, pathfile=invalid_pathfile)
 
 
 def test_log_with_different_levels(capsys):
-    """Test si le niveau de log fonctionne correctement avec le seuil"""
+    """Tests if the log level works correctly with the threshold."""
     message = "Test log with levels"
     level_info = 1
     level_warning = 2
     threshold = 2
 
-    # Test avec un niveau inférieur au seuil (ne doit pas s'afficher)
     Tools.log(message, level_info, show=True, write=False, threshold=threshold)
     captured = capsys.readouterr()
     assert message not in captured.out
 
-    # Test avec un niveau supérieur ou égal au seuil (doit s'afficher)
     Tools.log(message, level_warning, show=True, write=False, threshold=threshold)
     captured = capsys.readouterr()
     assert message in captured.out
@@ -94,7 +88,7 @@ def test_log_with_different_levels(capsys):
     (False, "")
 ])
 def test_log_show_parameter(capsys, show, expected_output):
-    """Test le paramètre 'show' pour afficher ou non le log dans la console"""
+    """Tests the 'show' parameter to display or not display the log in the console."""
     message = "Test log message"
     level = 1
     Tools.log(message, level, show=show, write=False, threshold=1)
@@ -103,33 +97,33 @@ def test_log_show_parameter(capsys, show, expected_output):
     assert expected_output in captured.out
 
 def test_default_generation():
-    """Test génération par défaut avec les paramètres par défaut."""
+    """Tests default generation with default parameters."""
     result = Tools.random_id()
     assert len(result) == 12
     valid_chars = "ABCDEFGHIJKLMNOPQRSTUVWXTZabcdefghijklmnopqrstuvwxyz0123456789-_!?@$*."
     assert all(char in valid_chars for char in result)
 
 def test_custom_length():
-    """Test avec une longueur personnalisée."""
+    """Tests with a custom length."""
     length = 20
     result = Tools.random_id(length=length)
     assert len(result) == length
 
 def test_custom_special_characters():
-    """Test avec un ensemble personnalisé de caractères spéciaux."""
+    """Tests with a custom set of special characters."""
     chars_special = "!@#"
     result = Tools.random_id(chars_special=chars_special)
     valid_chars = "ABCDEFGHIJKLMNOPQRSTUVWXTZabcdefghijklmnopqrstuvwxyz0123456789" + chars_special
     assert all(char in valid_chars for char in result)
 
 def test_excludes_characters():
-    """Test avec des caractères exclus."""
+    """Tests with excluded characters."""
     excludes_chars = ['A', '1', '!', 'z']
     result = Tools.random_id(excludes_chars=excludes_chars)
     assert not any(char in excludes_chars for char in result)
 
 def test_pattern_generation():
-    """Test avec un pattern spécifique."""
+    """Tests with a specific pattern."""
     pattern = ["%S", "%s", "%d", "%x", "X", "%S"]
     result = Tools.random_id(pattern=pattern)
     assert len(result) == len(pattern)
@@ -141,50 +135,50 @@ def test_pattern_generation():
     assert result[5].isupper()
 
 def test_prevent_duplicate_ids():
-    """Test pour éviter les doublons dans la liste des identifiants."""
+    """Tests to avoid duplicates in the list of identifiers."""
     existing_ids = ["ABC123", "XYZ789"]
     new_id = Tools.random_id(length=6, uids=existing_ids)
     assert new_id not in existing_ids
 
 def test_invalid_length():
-    """Test avec une longueur invalide."""
-    with pytest.raises(ValueError, match="le paramètre length doit être un entier positif."):
+    """Tests with an invalid length."""
+    with pytest.raises(ValueError, match="the length parameter must be a positive integer."):
         Tools.random_id(length=-5)
 
 def test_invalid_special_characters():
-    """Test avec des caractères spéciaux invalides."""
-    with pytest.raises(ValueError, match="le paramètre chars_special doit être une chaîne de caractère."):
+    """Tests with invalid special characters."""
+    with pytest.raises(ValueError, match="the chars_special parameter must be a string."):
         Tools.random_id(chars_special=123)
 
 def test_invalid_pattern_type():
-    """Test avec un pattern invalide (non-liste)."""
-    with pytest.raises(ValueError, match="Le paramètre pattern doit une liste contenant au moins un élément."):
+    """Tests with an invalid pattern (not a list)."""
+    with pytest.raises(ValueError, match="The pattern parameter must be a list containing at least one element."):
         Tools.random_id(pattern="invalid_pattern")
 
 def test_empty_pattern():
-    """Test avec un pattern vide."""
-    with pytest.raises(ValueError, match="Le paramètre pattern doit une liste contenant au moins un élément."):
+    """Tests with an empty pattern."""
+    with pytest.raises(ValueError, match="The pattern parameter must be a list containing at least one element."):
         Tools.random_id(pattern=[])
 
 def test_all_characters_excluded():
-    """Test où tous les caractères sont exclus."""
+    """Tests where all characters are excluded."""
     excludes_chars = list("ABCDEFGHIJKLMNOPQRSTUVWXTZabcdefghijklmnopqrstuvwxyz0123456789-_!?@$*.")
-    with pytest.raises(ValueError, match="Tous les caractères possibles sont exclus. Impossible de générer un identifiant."):
+    with pytest.raises(ValueError, match="All possible characters are excluded. Cannot generate an identifier."):
         Tools.random_id(excludes_chars=excludes_chars)
 
 def test_no_valid_items_in_get_random_element():
-    """Test avec une liste vide ou des exclusions impossibles pour get_random_element."""
-    with pytest.raises(ValueError, match="Aucun élément n'est disponible pour la sélection."):
+    """Tests with an empty list or impossible exclusions for get_random_element."""
+    with pytest.raises(ValueError, match="No element is available for selection."):
         Tools.get_random_element(["A", "B"], excludes=["A", "B"])
 
 def test_recursive_id_generation():
-    """Test de génération récursive avec des doublons initiaux."""
-    existing_ids = ["ABCDEF" for _ in range(100)]  # Crée une situation potentielle de conflit
+    """Tests recursive generation with initial duplicates."""
+    existing_ids = ["ABCDEF" for _ in range(100)]
     new_id = Tools.random_id(length=6, uids=existing_ids)
     assert new_id not in existing_ids
 
 def test_all_numeric_columns():
-    """Test avec un DataFrame contenant uniquement des colonnes numériques."""
+    """Tests with a DataFrame containing only numeric columns."""
     df = pd.DataFrame({
         "col1": [1, 2, 3],
         "col2": [4.5, 5.6, 6.7],
@@ -193,7 +187,7 @@ def test_all_numeric_columns():
     assert Tools.is_all_numeric(df) is True
 
 def test_mixed_columns():
-    """Test avec un DataFrame contenant des colonnes numériques et non numériques."""
+    """Tests with a DataFrame containing numeric and non-numeric columns."""
     df = pd.DataFrame({
         "col1": [1, 2, 3],
         "col2": ["a", "b", "c"],
@@ -202,7 +196,7 @@ def test_mixed_columns():
     assert Tools.is_all_numeric(df) is False
 
 def test_all_non_numeric_columns():
-    """Test avec un DataFrame contenant uniquement des colonnes non numériques."""
+    """Tests with a DataFrame containing only non-numeric columns."""
     df = pd.DataFrame({
         "col1": ["x", "y", "z"],
         "col2": ["a", "b", "c"]
@@ -210,31 +204,31 @@ def test_all_non_numeric_columns():
     assert Tools.is_all_numeric(df) is False
 
 def test_empty_dataframe():
-    """Test avec un DataFrame vide."""
+    """Tests with an empty DataFrame."""
     df = pd.DataFrame()
     assert Tools.is_all_numeric(df) is True
 
 def test_no_columns_dataframe():
-    """Test avec un DataFrame sans colonnes mais avec des lignes."""
+    """Tests with a DataFrame without columns but with rows."""
     df = pd.DataFrame(index=[0, 1, 2])
     assert Tools.is_all_numeric(df) is True
 
 def test_single_numeric_column():
-    """Test avec un DataFrame contenant une seule colonne numérique."""
+    """Tests with a DataFrame containing a single numeric column."""
     df = pd.DataFrame({
         "col1": [1.1, 2.2, 3.3]
     })
     assert Tools.is_all_numeric(df) is True
 
 def test_single_non_numeric_column():
-    """Test avec un DataFrame contenant une seule colonne non numérique."""
+    """Tests with a DataFrame containing a single non-numeric column."""
     df = pd.DataFrame({
         "col1": ["a", "b", "c"]
     })
     assert Tools.is_all_numeric(df) is False
 
 def test_column_with_nan_values():
-    """Test avec un DataFrame contenant des valeurs NaN dans une colonne numérique."""
+    """Tests with a DataFrame containing NaN values in a numeric column."""
     df = pd.DataFrame({
         "col1": [1, np.nan, 3],
         "col2": [4.5, 5.6, np.nan]
@@ -242,7 +236,7 @@ def test_column_with_nan_values():
     assert Tools.is_all_numeric(df) is True
 
 def test_columns_with_different_dtypes():
-    """Test avec un DataFrame contenant des colonnes de types différents."""
+    """Tests with a DataFrame containing columns of different types."""
     df = pd.DataFrame({
         "col1": [1, 2, 3],
         "col2": [4.5, 5.6, 6.7],
