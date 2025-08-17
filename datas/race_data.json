@@ -1,0 +1,1601 @@
+{
+  "_id": {
+    "$oid": "689f8a45a17b0991812315c6"
+  },
+  "course_date": "19102024",
+  "reunion_num": "2",
+  "course_num": "5",
+  "participants": {
+    "participants": [
+      {
+        "nom": "GRAN HABANO",
+        "numPmu": 1,
+        "age": 3,
+        "sexe": "MALES",
+        "race": "PUR-SANG",
+        "statut": "PARTANT",
+        "placeCorde": 7,
+        "oeilleres": "SANS_OEILLERES",
+        "proprietaire": "F.CAENEPEEL",
+        "entraineur": "S.KOBAYASHI (S)",
+        "driver": "E.HARDOUIN",
+        "driverChange": false,
+        "robe": {
+          "code": "001",
+          "libelleCourt": "ALEZAN",
+          "libelleLong": "ALEZAN"
+        },
+        "indicateurInedit": false,
+        "musique": "6p1p6p4p3p4p2p5p(23)7p",
+        "nombreCourses": 11,
+        "nombreVictoires": 1,
+        "nombrePlaces": 5,
+        "nombrePlacesSecond": 1,
+        "nombrePlacesTroisieme": 1,
+        "gainsParticipant": {
+          "gainsCarriere": 2340000,
+          "gainsVictoires": 1050000,
+          "gainsPlace": 1290000,
+          "gainsAnneeEnCours": 2340000,
+          "gainsAnneePrecedente": 0
+        },
+        "handicapValeur": 32.5,
+        "nomPere": "RIBCHESTER",
+        "nomMere": "SAO TOME",
+        "nomPereMere": "STORMY RIVER",
+        "ordreArrivee": 1,
+        "jumentPleine": false,
+        "engagement": false,
+        "supplement": 0,
+        "handicapPoids": 625,
+        "poidsConditionMonteChange": false,
+        "dernierRapportDirect": {
+          "typePari": "E_SIMPLE_GAGNANT",
+          "rapport": 5.5,
+          "typeRapport": "DIRECT",
+          "indicateurTendance": " ",
+          "nombreIndicateurTendance": 0,
+          "dateRapport": {
+            "$numberLong": "1729333251000"
+          },
+          "permutation": 1,
+          "favoris": false,
+          "numPmu1": 1,
+          "grossePrise": false
+        },
+        "dernierRapportReference": {
+          "typePari": "E_SIMPLE_GAGNANT",
+          "rapport": 13,
+          "typeRapport": "REFERENCE",
+          "indicateurTendance": "+",
+          "nombreIndicateurTendance": 4,
+          "dateRapport": {
+            "$numberLong": "1729331165000"
+          },
+          "permutation": 1,
+          "favoris": false,
+          "numPmu1": 1,
+          "grossePrise": false
+        },
+        "urlCasaque": "https://www.pmu.fr/back-assets/hippique/casaques/19102024/R2/C5/P1.png",
+        "eleveur": "ECURIE ADES HAZAN",
+        "paysEntrainement": "FRA",
+        "allure": "GALOP"
+      },
+      {
+        "nom": "ROSADORA",
+        "numPmu": 2,
+        "age": 3,
+        "sexe": "FEMELLES",
+        "race": "PUR-SANG",
+        "statut": "PARTANT",
+        "placeCorde": 1,
+        "oeilleres": "SANS_OEILLERES",
+        "proprietaire": "S.WUILLAUME",
+        "entraineur": "N.BELLANGER (S)",
+        "driver": "G.SIAS",
+        "driverChange": false,
+        "robe": {
+          "code": "020",
+          "libelleCourt": "BAI",
+          "libelleLong": "BAI"
+        },
+        "indicateurInedit": false,
+        "musique": "3p1p0p1p2p1p7p3p2p7p",
+        "nombreCourses": 15,
+        "nombreVictoires": 3,
+        "nombrePlaces": 6,
+        "nombrePlacesSecond": 2,
+        "nombrePlacesTroisieme": 2,
+        "gainsParticipant": {
+          "gainsCarriere": 2655000,
+          "gainsVictoires": 1625000,
+          "gainsPlace": 1030000,
+          "gainsAnneeEnCours": 2575000,
+          "gainsAnneePrecedente": 80000
+        },
+        "handicapValeur": 31.5,
+        "nomPere": "ROSENDHAL",
+        "nomMere": "CEODORA",
+        "nomPereMere": "EFISIO",
+        "ordreArrivee": 4,
+        "jumentPleine": false,
+        "engagement": false,
+        "supplement": 0,
+        "handicapPoids": 615,
+        "poidsConditionMonte": 600,
+        "poidsConditionMonteChange": false,
+        "distanceChevalPrecedent": {
+          "libelleCourt": "1 L",
+          "libelleLong": "1 longueur",
+          "code": 1,
+          "identifiant": "UNE_LONGUEUR"
+        },
+        "dernierRapportDirect": {
+          "typePari": "E_SIMPLE_GAGNANT",
+          "rapport": 5.4,
+          "typeRapport": "DIRECT",
+          "indicateurTendance": " ",
+          "nombreIndicateurTendance": 0,
+          "dateRapport": {
+            "$numberLong": "1729333251000"
+          },
+          "permutation": 1,
+          "favoris": false,
+          "numPmu1": 2,
+          "grossePrise": false
+        },
+        "dernierRapportReference": {
+          "typePari": "E_SIMPLE_GAGNANT",
+          "rapport": 14,
+          "typeRapport": "REFERENCE",
+          "indicateurTendance": "-",
+          "nombreIndicateurTendance": -18.43,
+          "dateRapport": {
+            "$numberLong": "1729331165000"
+          },
+          "permutation": 1,
+          "favoris": false,
+          "numPmu1": 2,
+          "grossePrise": false
+        },
+        "urlCasaque": "https://www.pmu.fr/back-assets/hippique/casaques/19102024/R2/C5/P2.png",
+        "eleveur": "MR SYLVAIN WUILLAUME",
+        "paysEntrainement": "FRA",
+        "allure": "GALOP"
+      },
+      {
+        "nom": "STELLO TALLY",
+        "numPmu": 3,
+        "age": 3,
+        "sexe": "FEMELLES",
+        "race": "PUR-SANG",
+        "statut": "PARTANT",
+        "placeCorde": 6,
+        "oeilleres": "SANS_OEILLERES",
+        "proprietaire": "MME M.BRUERE",
+        "entraineur": "MME M.BRUERE",
+        "driver": "P.REMOUE",
+        "driverChange": false,
+        "robe": {
+          "code": "021",
+          "libelleCourt": "BAI F.",
+          "libelleLong": "BAI FONCE"
+        },
+        "indicateurInedit": false,
+        "musique": "0p8p1p2p9p5p4p2p9p3p",
+        "nombreCourses": 11,
+        "nombreVictoires": 1,
+        "nombrePlaces": 6,
+        "nombrePlacesSecond": 2,
+        "nombrePlacesTroisieme": 1,
+        "gainsParticipant": {
+          "gainsCarriere": 1817000,
+          "gainsVictoires": 450000,
+          "gainsPlace": 1367000,
+          "gainsAnneeEnCours": 1817000,
+          "gainsAnneePrecedente": 0
+        },
+        "handicapValeur": 31,
+        "nomPere": "BIRCHWOOD",
+        "nomMere": "AMOUR MALPIC",
+        "nomPereMere": "AZAMOUR",
+        "ordreArrivee": 3,
+        "jumentPleine": false,
+        "engagement": false,
+        "supplement": 0,
+        "handicapPoids": 610,
+        "poidsConditionMonte": 595,
+        "poidsConditionMonteChange": false,
+        "distanceChevalPrecedent": {
+          "libelleCourt": "15 L",
+          "libelleLong": "15 longueurs",
+          "code": 9,
+          "identifiant": "QUINZE_LONGUEURS"
+        },
+        "dernierRapportDirect": {
+          "typePari": "E_SIMPLE_GAGNANT",
+          "rapport": 48,
+          "typeRapport": "DIRECT",
+          "indicateurTendance": " ",
+          "nombreIndicateurTendance": 0,
+          "dateRapport": {
+            "$numberLong": "1729333251000"
+          },
+          "permutation": 1,
+          "favoris": false,
+          "numPmu1": 3,
+          "grossePrise": false
+        },
+        "dernierRapportReference": {
+          "typePari": "E_SIMPLE_GAGNANT",
+          "rapport": 40,
+          "typeRapport": "REFERENCE",
+          "indicateurTendance": "+",
+          "nombreIndicateurTendance": 16.33,
+          "dateRapport": {
+            "$numberLong": "1729331165000"
+          },
+          "permutation": 1,
+          "favoris": false,
+          "numPmu1": 3,
+          "grossePrise": false
+        },
+        "urlCasaque": "https://www.pmu.fr/back-assets/hippique/casaques/19102024/R2/C5/P3.png",
+        "eleveur": "HARAS DU GRAND LYS",
+        "paysEntrainement": "FRA",
+        "allure": "GALOP"
+      },
+      {
+        "nom": "GARMI",
+        "numPmu": 4,
+        "age": 3,
+        "sexe": "FEMELLES",
+        "race": "PUR-SANG",
+        "statut": "PARTANT",
+        "placeCorde": 5,
+        "oeilleres": "SANS_OEILLERES",
+        "proprietaire": "R.SINGARIN",
+        "entraineur": "MME S.GAVILAN",
+        "driver": "F.VERON",
+        "driverChange": false,
+        "robe": {
+          "code": "021",
+          "libelleCourt": "BAI F.",
+          "libelleLong": "BAI FONCE"
+        },
+        "indicateurInedit": false,
+        "musique": "0p0p1p5p6p0p3p1p1p",
+        "nombreCourses": 20,
+        "nombreVictoires": 4,
+        "nombrePlaces": 6,
+        "nombrePlacesSecond": 1,
+        "nombrePlacesTroisieme": 1,
+        "gainsParticipant": {
+          "gainsCarriere": 4025000,
+          "gainsVictoires": 2850000,
+          "gainsPlace": 1175000,
+          "gainsAnneeEnCours": 2400000,
+          "gainsAnneePrecedente": 1625000
+        },
+        "handicapValeur": 30,
+        "nomPere": "SHALAA",
+        "nomMere": "ENCIPHERED",
+        "nomPereMere": "BATED BREATH",
+        "ordreArrivee": 6,
+        "jumentPleine": false,
+        "engagement": false,
+        "supplement": 0,
+        "handicapPoids": 600,
+        "poidsConditionMonteChange": false,
+        "distanceChevalPrecedent": {
+          "libelleCourt": "1 L",
+          "libelleLong": "1 longueur",
+          "code": 1,
+          "identifiant": "UNE_LONGUEUR"
+        },
+        "dernierRapportDirect": {
+          "typePari": "E_SIMPLE_GAGNANT",
+          "rapport": 8.2,
+          "typeRapport": "DIRECT",
+          "indicateurTendance": " ",
+          "nombreIndicateurTendance": 0,
+          "dateRapport": {
+            "$numberLong": "1729333251000"
+          },
+          "permutation": 1,
+          "favoris": false,
+          "numPmu1": 4,
+          "grossePrise": false
+        },
+        "dernierRapportReference": {
+          "typePari": "E_SIMPLE_GAGNANT",
+          "rapport": 22,
+          "typeRapport": "REFERENCE",
+          "indicateurTendance": "-",
+          "nombreIndicateurTendance": -2.07,
+          "dateRapport": {
+            "$numberLong": "1729331165000"
+          },
+          "permutation": 1,
+          "favoris": false,
+          "numPmu1": 4,
+          "grossePrise": false
+        },
+        "urlCasaque": "https://www.pmu.fr/back-assets/hippique/casaques/19102024/R2/C5/P4.png",
+        "eleveur": "MR MOUSSA MBACKE",
+        "paysEntrainement": "FRA",
+        "allure": "GALOP"
+      },
+      {
+        "nom": "REDPEARL",
+        "numPmu": 5,
+        "age": 3,
+        "sexe": "HONGRES",
+        "race": "PUR-SANG",
+        "statut": "PARTANT",
+        "placeCorde": 4,
+        "oeilleres": "OEILLERES_AUSTRALIENNES",
+        "proprietaire": "X.RICHARD",
+        "entraineur": "X.RICHARD",
+        "driver": "A.MADAMET",
+        "driverChange": false,
+        "robe": {
+          "code": "020",
+          "libelleCourt": "BAI",
+          "libelleLong": "BAI"
+        },
+        "indicateurInedit": false,
+        "musique": "5p0p5p2p2p4p(23)0p9p",
+        "nombreCourses": 8,
+        "nombreVictoires": 0,
+        "nombrePlaces": 5,
+        "nombrePlacesSecond": 2,
+        "nombrePlacesTroisieme": 0,
+        "gainsParticipant": {
+          "gainsCarriere": 910000,
+          "gainsVictoires": 0,
+          "gainsPlace": 910000,
+          "gainsAnneeEnCours": 910000,
+          "gainsAnneePrecedente": 0
+        },
+        "handicapValeur": 30,
+        "nomPere": "BIRCHWOOD",
+        "nomMere": "PEARLRED",
+        "nomPereMere": "REDBACK",
+        "ordreArrivee": 7,
+        "jumentPleine": false,
+        "engagement": false,
+        "supplement": 0,
+        "handicapPoids": 600,
+        "poidsConditionMonteChange": false,
+        "distanceChevalPrecedent": {
+          "libelleCourt": "TETE",
+          "libelleLong": "1 tête",
+          "code": 25,
+          "identifiant": "UNE_TETE"
+        },
+        "dernierRapportDirect": {
+          "typePari": "E_SIMPLE_GAGNANT",
+          "rapport": 11,
+          "typeRapport": "DIRECT",
+          "indicateurTendance": " ",
+          "nombreIndicateurTendance": 0,
+          "dateRapport": {
+            "$numberLong": "1729333251000"
+          },
+          "permutation": 1,
+          "favoris": false,
+          "numPmu1": 5,
+          "grossePrise": false
+        },
+        "dernierRapportReference": {
+          "typePari": "E_SIMPLE_GAGNANT",
+          "rapport": 18,
+          "typeRapport": "REFERENCE",
+          "indicateurTendance": "-",
+          "nombreIndicateurTendance": -18.74,
+          "dateRapport": {
+            "$numberLong": "1729331165000"
+          },
+          "permutation": 1,
+          "favoris": false,
+          "numPmu1": 5,
+          "grossePrise": false
+        },
+        "urlCasaque": "https://www.pmu.fr/back-assets/hippique/casaques/19102024/R2/C5/P5.png",
+        "eleveur": "MR XAVIER RICHARD",
+        "paysEntrainement": "FRA",
+        "allure": "GALOP"
+      },
+      {
+        "nom": "GUERRIER MYSTERE",
+        "numPmu": 6,
+        "age": 3,
+        "sexe": "HONGRES",
+        "race": "PUR-SANG",
+        "statut": "PARTANT",
+        "placeCorde": 12,
+        "oeilleres": "SANS_OEILLERES",
+        "proprietaire": "SCEA VERLANDE/S.COURCAULT/BLOUIN",
+        "entraineur": "L.GADBIN (S)",
+        "driver": "C.RAIMBAULT",
+        "driverChange": false,
+        "robe": {
+          "code": "001",
+          "libelleCourt": "ALEZAN",
+          "libelleLong": "ALEZAN"
+        },
+        "indicateurInedit": false,
+        "musique": "1p3p0p9p4p5p6p7p",
+        "nombreCourses": 8,
+        "nombreVictoires": 1,
+        "nombrePlaces": 3,
+        "nombrePlacesSecond": 0,
+        "nombrePlacesTroisieme": 1,
+        "gainsParticipant": {
+          "gainsCarriere": 820000,
+          "gainsVictoires": 475000,
+          "gainsPlace": 345000,
+          "gainsAnneeEnCours": 820000,
+          "gainsAnneePrecedente": 0
+        },
+        "handicapValeur": 30,
+        "nomPere": "PROFITABLE",
+        "nomMere": "WANDERING HEART",
+        "nomPereMere": "IFFRAAJ",
+        "ordreArrivee": 9,
+        "jumentPleine": false,
+        "engagement": false,
+        "supplement": 0,
+        "handicapPoids": 600,
+        "poidsConditionMonte": 575,
+        "poidsConditionMonteChange": false,
+        "distanceChevalPrecedent": {
+          "libelleCourt": "5 L",
+          "libelleLong": "5 longueurs",
+          "code": 15,
+          "identifiant": "CINQ_LONGUEURS"
+        },
+        "dernierRapportDirect": {
+          "typePari": "E_SIMPLE_GAGNANT",
+          "rapport": 21,
+          "typeRapport": "DIRECT",
+          "indicateurTendance": " ",
+          "nombreIndicateurTendance": 0,
+          "dateRapport": {
+            "$numberLong": "1729333251000"
+          },
+          "permutation": 1,
+          "favoris": false,
+          "numPmu1": 6,
+          "grossePrise": false
+        },
+        "dernierRapportReference": {
+          "typePari": "E_SIMPLE_GAGNANT",
+          "rapport": 9.1,
+          "typeRapport": "REFERENCE",
+          "indicateurTendance": "+",
+          "nombreIndicateurTendance": 9.63,
+          "dateRapport": {
+            "$numberLong": "1729331165000"
+          },
+          "permutation": 1,
+          "favoris": false,
+          "numPmu1": 6,
+          "grossePrise": false
+        },
+        "urlCasaque": "https://www.pmu.fr/back-assets/hippique/casaques/19102024/R2/C5/P6.png",
+        "eleveur": "MME SUE LENEHAN",
+        "paysEntrainement": "FRA",
+        "allure": "GALOP"
+      },
+      {
+        "nom": "STELLANIA",
+        "numPmu": 7,
+        "age": 3,
+        "sexe": "FEMELLES",
+        "race": "PUR-SANG",
+        "statut": "PARTANT",
+        "placeCorde": 3,
+        "oeilleres": "SANS_OEILLERES",
+        "proprietaire": "JP.DUBOIS/GUY PARIENTE HOLDING",
+        "entraineur": "JPH .DUBOIS",
+        "driver": "C.LECOEUVRE",
+        "driverChange": false,
+        "robe": {
+          "code": "022",
+          "libelleCourt": "BAI BR",
+          "libelleLong": "BAI BRUN"
+        },
+        "indicateurInedit": false,
+        "musique": "1p2p2p6p0p7p(23)7p9p",
+        "nombreCourses": 8,
+        "nombreVictoires": 1,
+        "nombrePlaces": 2,
+        "nombrePlacesSecond": 2,
+        "nombrePlacesTroisieme": 0,
+        "gainsParticipant": {
+          "gainsCarriere": 1560000,
+          "gainsVictoires": 950000,
+          "gainsPlace": 610000,
+          "gainsAnneeEnCours": 1560000,
+          "gainsAnneePrecedente": 0
+        },
+        "handicapValeur": 29.5,
+        "nomPere": "KENDARGENT",
+        "nomMere": "MAHARANIA",
+        "nomPereMere": "MANDURO",
+        "ordreArrivee": 2,
+        "jumentPleine": false,
+        "engagement": false,
+        "supplement": 0,
+        "handicapPoids": 595,
+        "poidsConditionMonteChange": false,
+        "distanceChevalPrecedent": {
+          "libelleCourt": "1/2 L",
+          "libelleLong": "1/2 longueur",
+          "code": 3,
+          "identifiant": "DEMI_LONGUEUR"
+        },
+        "dernierRapportDirect": {
+          "typePari": "E_SIMPLE_GAGNANT",
+          "rapport": 4.8,
+          "typeRapport": "DIRECT",
+          "indicateurTendance": " ",
+          "nombreIndicateurTendance": 0,
+          "dateRapport": {
+            "$numberLong": "1729333251000"
+          },
+          "permutation": 1,
+          "favoris": true,
+          "numPmu1": 7,
+          "grossePrise": false
+        },
+        "dernierRapportReference": {
+          "typePari": "E_SIMPLE_GAGNANT",
+          "rapport": 2.2,
+          "typeRapport": "REFERENCE",
+          "indicateurTendance": "+",
+          "nombreIndicateurTendance": 15.78,
+          "dateRapport": {
+            "$numberLong": "1729331165000"
+          },
+          "permutation": 1,
+          "favoris": true,
+          "numPmu1": 7,
+          "grossePrise": false
+        },
+        "urlCasaque": "https://www.pmu.fr/back-assets/hippique/casaques/19102024/R2/C5/P7.png",
+        "eleveur": "GUY PARIENTE HOLDING SPRL",
+        "paysEntrainement": "FRA",
+        "allure": "GALOP"
+      },
+      {
+        "nom": "PICANES",
+        "numPmu": 8,
+        "age": 3,
+        "sexe": "FEMELLES",
+        "race": "PUR-SANG",
+        "statut": "PARTANT",
+        "placeCorde": 9,
+        "oeilleres": "SANS_OEILLERES",
+        "proprietaire": "A.MENARD",
+        "entraineur": "PIER.MENARD",
+        "driver": "H.LEBOUC",
+        "driverChange": false,
+        "robe": {
+          "code": "022",
+          "libelleCourt": "BAI BR",
+          "libelleLong": "BAI BRUN"
+        },
+        "indicateurInedit": false,
+        "musique": "6p6p9p5p7p8p0p5p(23)4p",
+        "nombreCourses": 15,
+        "nombreVictoires": 0,
+        "nombrePlaces": 7,
+        "nombrePlacesSecond": 1,
+        "nombrePlacesTroisieme": 0,
+        "gainsParticipant": {
+          "gainsCarriere": 1075000,
+          "gainsVictoires": 0,
+          "gainsPlace": 1075000,
+          "gainsAnneeEnCours": 235000,
+          "gainsAnneePrecedente": 840000
+        },
+        "handicapValeur": 29,
+        "nomPere": "DARIYAN",
+        "nomMere": "INFINITY LOVE",
+        "nomPereMere": "DUTCH ART",
+        "ordreArrivee": 12,
+        "jumentPleine": false,
+        "engagement": false,
+        "supplement": 0,
+        "handicapPoids": 590,
+        "poidsConditionMonteChange": false,
+        "distanceChevalPrecedent": {
+          "libelleCourt": "15 L",
+          "libelleLong": "15 longueurs",
+          "code": 9,
+          "identifiant": "QUINZE_LONGUEURS"
+        },
+        "dernierRapportDirect": {
+          "typePari": "E_SIMPLE_GAGNANT",
+          "rapport": 15,
+          "typeRapport": "DIRECT",
+          "indicateurTendance": " ",
+          "nombreIndicateurTendance": 0,
+          "dateRapport": {
+            "$numberLong": "1729333251000"
+          },
+          "permutation": 1,
+          "favoris": false,
+          "numPmu1": 8,
+          "grossePrise": false
+        },
+        "dernierRapportReference": {
+          "typePari": "E_SIMPLE_GAGNANT",
+          "rapport": 13,
+          "typeRapport": "REFERENCE",
+          "indicateurTendance": "-",
+          "nombreIndicateurTendance": -0.73,
+          "dateRapport": {
+            "$numberLong": "1729331165000"
+          },
+          "permutation": 1,
+          "favoris": false,
+          "numPmu1": 8,
+          "grossePrise": false
+        },
+        "urlCasaque": "https://www.pmu.fr/back-assets/hippique/casaques/19102024/R2/C5/P8.png",
+        "eleveur": "DOMAINE DE LA CORNILLIERE EARL",
+        "paysEntrainement": "FRA",
+        "allure": "GALOP"
+      },
+      {
+        "nom": "LOVEFORCE",
+        "numPmu": 9,
+        "age": 3,
+        "sexe": "FEMELLES",
+        "race": "PUR-SANG",
+        "statut": "PARTANT",
+        "placeCorde": 10,
+        "oeilleres": "OEILLERES_AUSTRALIENNES",
+        "proprietaire": "C.FENNESSY/D.HADDRELL",
+        "entraineur": "FR.MONFORT (S)",
+        "driver": "A.SUBIAS",
+        "driverChange": false,
+        "robe": {
+          "code": "020",
+          "libelleCourt": "BAI",
+          "libelleLong": "BAI"
+        },
+        "indicateurInedit": false,
+        "musique": "8p2p3p3p1p6p6p4p6p9p",
+        "nombreCourses": 17,
+        "nombreVictoires": 1,
+        "nombrePlaces": 7,
+        "nombrePlacesSecond": 1,
+        "nombrePlacesTroisieme": 4,
+        "gainsParticipant": {
+          "gainsCarriere": 2275000,
+          "gainsVictoires": 600000,
+          "gainsPlace": 1675000,
+          "gainsAnneeEnCours": 2275000,
+          "gainsAnneePrecedente": 0
+        },
+        "handicapValeur": 28.5,
+        "nomPere": "LAND FORCE",
+        "nomMere": "LOVE STORY ME",
+        "nomPereMere": "MASTERCRAFTSMAN",
+        "ordreArrivee": 10,
+        "jumentPleine": false,
+        "engagement": false,
+        "supplement": 0,
+        "handicapPoids": 585,
+        "poidsConditionMonte": 575,
+        "poidsConditionMonteChange": false,
+        "distanceChevalPrecedent": {
+          "libelleCourt": "8 L",
+          "libelleLong": "8 longueurs",
+          "code": 18,
+          "identifiant": "HUIT_LONGUEURS"
+        },
+        "dernierRapportDirect": {
+          "typePari": "E_SIMPLE_GAGNANT",
+          "rapport": 12,
+          "typeRapport": "DIRECT",
+          "indicateurTendance": " ",
+          "nombreIndicateurTendance": 0,
+          "dateRapport": {
+            "$numberLong": "1729333251000"
+          },
+          "permutation": 1,
+          "favoris": false,
+          "numPmu1": 9,
+          "grossePrise": false
+        },
+        "dernierRapportReference": {
+          "typePari": "E_SIMPLE_GAGNANT",
+          "rapport": 7.5,
+          "typeRapport": "REFERENCE",
+          "indicateurTendance": "-",
+          "nombreIndicateurTendance": -44.36,
+          "dateRapport": {
+            "$numberLong": "1729331165000"
+          },
+          "permutation": 1,
+          "favoris": false,
+          "numPmu1": 9,
+          "grossePrise": false
+        },
+        "urlCasaque": "https://www.pmu.fr/back-assets/hippique/casaques/19102024/R2/C5/P9.png",
+        "eleveur": "HARAS DE MAGOUET",
+        "paysEntrainement": "FRA",
+        "allure": "GALOP"
+      },
+      {
+        "nom": "GOLD O'BOY",
+        "numPmu": 10,
+        "age": 3,
+        "sexe": "HONGRES",
+        "race": "PUR-SANG",
+        "statut": "PARTANT",
+        "placeCorde": 2,
+        "oeilleres": "SANS_OEILLERES",
+        "proprietaire": "HA.HA.PANTALL (S)",
+        "entraineur": "HA.PANTALL (S)",
+        "driver": "T.PICCONE",
+        "driverChange": false,
+        "robe": {
+          "code": "073",
+          "libelleCourt": "BAIMEL",
+          "libelleLong": "BAI MELANGE"
+        },
+        "indicateurInedit": false,
+        "musique": "6p9p7p5p7p(23)0p7p9p4p",
+        "nombreCourses": 12,
+        "nombreVictoires": 1,
+        "nombrePlaces": 3,
+        "nombrePlacesSecond": 0,
+        "nombrePlacesTroisieme": 0,
+        "gainsParticipant": {
+          "gainsCarriere": 1805000,
+          "gainsVictoires": 1150000,
+          "gainsPlace": 655000,
+          "gainsAnneeEnCours": 115000,
+          "gainsAnneePrecedente": 1690000
+        },
+        "handicapValeur": 28,
+        "nomPere": "ELVSTROEM",
+        "nomMere": "GOLDY HONOR",
+        "nomPereMere": "HIGHEST HONOR",
+        "ordreArrivee": 8,
+        "jumentPleine": false,
+        "engagement": false,
+        "supplement": 0,
+        "handicapPoids": 580,
+        "poidsConditionMonteChange": false,
+        "distanceChevalPrecedent": {
+          "libelleCourt": "2 L 1/2",
+          "libelleLong": "2 longueurs 1/2",
+          "code": 11,
+          "identifiant": "DEUX_LONGUEURS_ET_DEMIE"
+        },
+        "dernierRapportDirect": {
+          "typePari": "E_SIMPLE_GAGNANT",
+          "rapport": 9.7,
+          "typeRapport": "DIRECT",
+          "indicateurTendance": " ",
+          "nombreIndicateurTendance": 0,
+          "dateRapport": {
+            "$numberLong": "1729333251000"
+          },
+          "permutation": 1,
+          "favoris": false,
+          "numPmu1": 10,
+          "grossePrise": false
+        },
+        "dernierRapportReference": {
+          "typePari": "E_SIMPLE_GAGNANT",
+          "rapport": 11,
+          "typeRapport": "REFERENCE",
+          "indicateurTendance": "-",
+          "nombreIndicateurTendance": -3.38,
+          "dateRapport": {
+            "$numberLong": "1729331165000"
+          },
+          "permutation": 1,
+          "favoris": false,
+          "numPmu1": 10,
+          "grossePrise": false
+        },
+        "urlCasaque": "https://www.pmu.fr/back-assets/hippique/casaques/19102024/R2/C5/P10.png",
+        "eleveur": "MME YVETTE PANTALL",
+        "paysEntrainement": "FRA",
+        "allure": "GALOP"
+      },
+      {
+        "nom": "L'ETOILE DE FRANCE",
+        "numPmu": 11,
+        "age": 3,
+        "sexe": "FEMELLES",
+        "race": "PUR-SANG",
+        "statut": "PARTANT",
+        "placeCorde": 11,
+        "oeilleres": "SANS_OEILLERES",
+        "proprietaire": "ECURIE VENT D'OUEST",
+        "entraineur": "F.FOUCHER",
+        "driver": "M.JUSTUM",
+        "driverChange": false,
+        "robe": {
+          "code": "020",
+          "libelleCourt": "BAI",
+          "libelleLong": "BAI"
+        },
+        "indicateurInedit": false,
+        "musique": "0p4p2p5p3p7p2p0p(23)8p",
+        "nombreCourses": 12,
+        "nombreVictoires": 1,
+        "nombrePlaces": 6,
+        "nombrePlacesSecond": 3,
+        "nombrePlacesTroisieme": 1,
+        "gainsParticipant": {
+          "gainsCarriere": 1635000,
+          "gainsVictoires": 500000,
+          "gainsPlace": 1135000,
+          "gainsAnneeEnCours": 935000,
+          "gainsAnneePrecedente": 700000
+        },
+        "handicapValeur": 27.5,
+        "nomPere": "MASAR",
+        "nomMere": "L'ETOILE DE MOSCOU",
+        "nomPereMere": "PEINTRE CELEBRE",
+        "ordreArrivee": 5,
+        "jumentPleine": false,
+        "engagement": false,
+        "supplement": 0,
+        "handicapPoids": 575,
+        "poidsConditionMonteChange": false,
+        "distanceChevalPrecedent": {
+          "libelleCourt": "2 L 1/2",
+          "libelleLong": "2 longueurs 1/2",
+          "code": 11,
+          "identifiant": "DEUX_LONGUEURS_ET_DEMIE"
+        },
+        "dernierRapportDirect": {
+          "typePari": "E_SIMPLE_GAGNANT",
+          "rapport": 33,
+          "typeRapport": "DIRECT",
+          "indicateurTendance": " ",
+          "nombreIndicateurTendance": 0,
+          "dateRapport": {
+            "$numberLong": "1729333251000"
+          },
+          "permutation": 1,
+          "favoris": false,
+          "numPmu1": 11,
+          "grossePrise": false
+        },
+        "dernierRapportReference": {
+          "typePari": "E_SIMPLE_GAGNANT",
+          "rapport": 38,
+          "typeRapport": "REFERENCE",
+          "indicateurTendance": "+",
+          "nombreIndicateurTendance": 4.33,
+          "dateRapport": {
+            "$numberLong": "1729331165000"
+          },
+          "permutation": 1,
+          "favoris": false,
+          "numPmu1": 11,
+          "grossePrise": false
+        },
+        "urlCasaque": "https://www.pmu.fr/back-assets/hippique/casaques/19102024/R2/C5/P11.png",
+        "eleveur": "S.A.R.L. JEDBURGH STUD",
+        "paysEntrainement": "FRA",
+        "allure": "GALOP"
+      },
+      {
+        "nom": "STARGOLD",
+        "numPmu": 12,
+        "age": 3,
+        "sexe": "MALES",
+        "race": "PUR-SANG",
+        "statut": "PARTANT",
+        "placeCorde": 8,
+        "oeilleres": "SANS_OEILLERES",
+        "proprietaire": "ECURIE JACQUES JOEL LEVEA",
+        "entraineur": "S.GOUVAZE (S)",
+        "driver": "C.GROSBOIS",
+        "driverChange": false,
+        "robe": {
+          "code": "021",
+          "libelleCourt": "BAI F.",
+          "libelleLong": "BAI FONCE"
+        },
+        "indicateurInedit": false,
+        "musique": "6p7p4p3p(23)4p8p2p5p6p",
+        "nombreCourses": 10,
+        "nombreVictoires": 0,
+        "nombrePlaces": 5,
+        "nombrePlacesSecond": 1,
+        "nombrePlacesTroisieme": 1,
+        "gainsParticipant": {
+          "gainsCarriere": 890000,
+          "gainsVictoires": 0,
+          "gainsPlace": 890000,
+          "gainsAnneeEnCours": 515000,
+          "gainsAnneePrecedente": 375000
+        },
+        "handicapValeur": 27,
+        "nomPere": "CLOTH OF STARS",
+        "nomMere": "MARINA ERIA",
+        "nomPereMere": "SINNDAR",
+        "ordreArrivee": 11,
+        "jumentPleine": false,
+        "engagement": false,
+        "supplement": 0,
+        "handicapPoids": 570,
+        "poidsConditionMonteChange": false,
+        "distanceChevalPrecedent": {
+          "libelleCourt": "3 L",
+          "libelleLong": "3 longueurs",
+          "code": 13,
+          "identifiant": "TROIS_LONGUEURS"
+        },
+        "dernierRapportDirect": {
+          "typePari": "E_SIMPLE_GAGNANT",
+          "rapport": 20,
+          "typeRapport": "DIRECT",
+          "indicateurTendance": " ",
+          "nombreIndicateurTendance": 0,
+          "dateRapport": {
+            "$numberLong": "1729333251000"
+          },
+          "permutation": 1,
+          "favoris": false,
+          "numPmu1": 12,
+          "grossePrise": false
+        },
+        "dernierRapportReference": {
+          "typePari": "E_SIMPLE_GAGNANT",
+          "rapport": 38,
+          "typeRapport": "REFERENCE",
+          "indicateurTendance": "-",
+          "nombreIndicateurTendance": -8.11,
+          "dateRapport": {
+            "$numberLong": "1729331165000"
+          },
+          "permutation": 1,
+          "favoris": false,
+          "numPmu1": 12,
+          "grossePrise": false
+        },
+        "urlCasaque": "https://www.pmu.fr/back-assets/hippique/casaques/19102024/R2/C5/P12.png",
+        "eleveur": "ECURIE JACQUES JOEL LEVEAU",
+        "paysEntrainement": "FRA",
+        "allure": "GALOP"
+      }
+    ],
+    "ecuries": [],
+    "spriteCasaques": [
+      {
+        "heightSize": 19,
+        "url": "https://www.pmu.fr/back-assets/hippique/casaques/19102024/R2/C5/sprite_casaques_19px_size.png",
+        "originalSize": false
+      },
+      {
+        "heightSize": 40,
+        "url": "https://www.pmu.fr/back-assets/hippique/casaques/19102024/R2/C5/sprite_casaques_40px_size.png",
+        "originalSize": false
+      },
+      {
+        "heightSize": 261,
+        "url": "https://www.pmu.fr/back-assets/hippique/casaques/19102024/R2/C5/sprite_casaques_original_size.png",
+        "originalSize": true
+      }
+    ],
+    "cached": false
+  },
+  "e_simple": {
+    "dateProgramme": {
+      "$numberLong": "1729288800000"
+    },
+    "numeroReunion": 2,
+    "numeroCourse": 5,
+    "nbParticipants": 12,
+    "rapportsParticipant": [
+      {
+        "numerosParticipant": [
+          9
+        ],
+        "nom": "LOVEFORCE",
+        "numPmu": 9,
+        "age": 3,
+        "sexe": "FEMELLES",
+        "race": "PUR-SANG",
+        "statut": "PARTANT",
+        "placeCorde": 10,
+        "oeilleres": "OEILLERES_AUSTRALIENNES",
+        "proprietaire": "C.FENNESSY/D.HADDRELL",
+        "entraineur": "FR.MONFORT (S)",
+        "driver": "A.SUBIAS",
+        "driverChange": false,
+        "robe": {
+          "code": "020",
+          "libelleCourt": "BAI",
+          "libelleLong": "BAI"
+        },
+        "indicateurInedit": false,
+        "musique": "8p2p3p3p1p6p6p4p6p9p",
+        "nombreCourses": 17,
+        "nombreVictoires": 1,
+        "nombrePlaces": 7,
+        "nomPere": "LAND FORCE",
+        "nomMere": "LOVE STORY ME",
+        "nomPereMere": "MASTERCRAFTSMAN",
+        "ordreArrivee": 10,
+        "jumentPleine": false,
+        "engagement": false,
+        "handicapPoids": 585,
+        "poidsConditionMonte": 575,
+        "poidsConditionMonteChange": false,
+        "distanceChevalPrecedent": {
+          "libelleCourt": "8 L",
+          "libelleLong": "8 longueurs",
+          "code": 18,
+          "identifiant": "HUIT_LONGUEURS"
+        },
+        "urlCasaque": "https://www.pmu.fr/back-assets/hippique/casaques/19102024/R2/C5/P9.png",
+        "favoris": false,
+        "allure": "GALOP",
+        "grossePrise": false,
+        "minRapportProbable": 3,
+        "maxRapportProbable": 4.6
+      },
+      {
+        "numerosParticipant": [
+          12
+        ],
+        "nom": "STARGOLD",
+        "numPmu": 12,
+        "age": 3,
+        "sexe": "MALES",
+        "race": "PUR-SANG",
+        "statut": "PARTANT",
+        "placeCorde": 8,
+        "oeilleres": "SANS_OEILLERES",
+        "proprietaire": "ECURIE JACQUES JOEL LEVEA",
+        "entraineur": "S.GOUVAZE (S)",
+        "driver": "C.GROSBOIS",
+        "driverChange": false,
+        "robe": {
+          "code": "021",
+          "libelleCourt": "BAI F.",
+          "libelleLong": "BAI FONCE"
+        },
+        "indicateurInedit": false,
+        "musique": "6p7p4p3p(23)4p8p2p5p6p",
+        "nombreCourses": 10,
+        "nombreVictoires": 0,
+        "nombrePlaces": 5,
+        "nomPere": "CLOTH OF STARS",
+        "nomMere": "MARINA ERIA",
+        "nomPereMere": "SINNDAR",
+        "ordreArrivee": 11,
+        "jumentPleine": false,
+        "engagement": false,
+        "handicapPoids": 570,
+        "poidsConditionMonteChange": false,
+        "distanceChevalPrecedent": {
+          "libelleCourt": "3 L",
+          "libelleLong": "3 longueurs",
+          "code": 13,
+          "identifiant": "TROIS_LONGUEURS"
+        },
+        "urlCasaque": "https://www.pmu.fr/back-assets/hippique/casaques/19102024/R2/C5/P12.png",
+        "favoris": false,
+        "allure": "GALOP",
+        "grossePrise": false,
+        "minRapportProbable": 6.2,
+        "maxRapportProbable": 9.9
+      },
+      {
+        "numerosParticipant": [
+          1
+        ],
+        "nom": "GRAN HABANO",
+        "numPmu": 1,
+        "age": 3,
+        "sexe": "MALES",
+        "race": "PUR-SANG",
+        "statut": "PARTANT",
+        "placeCorde": 7,
+        "oeilleres": "SANS_OEILLERES",
+        "proprietaire": "F.CAENEPEEL",
+        "entraineur": "S.KOBAYASHI (S)",
+        "driver": "E.HARDOUIN",
+        "driverChange": false,
+        "robe": {
+          "code": "001",
+          "libelleCourt": "ALEZAN",
+          "libelleLong": "ALEZAN"
+        },
+        "indicateurInedit": false,
+        "musique": "6p1p6p4p3p4p2p5p(23)7p",
+        "nombreCourses": 11,
+        "nombreVictoires": 1,
+        "nombrePlaces": 5,
+        "nomPere": "RIBCHESTER",
+        "nomMere": "SAO TOME",
+        "nomPereMere": "STORMY RIVER",
+        "ordreArrivee": 1,
+        "jumentPleine": false,
+        "engagement": false,
+        "handicapPoids": 625,
+        "poidsConditionMonteChange": false,
+        "urlCasaque": "https://www.pmu.fr/back-assets/hippique/casaques/19102024/R2/C5/P1.png",
+        "favoris": false,
+        "allure": "GALOP",
+        "grossePrise": false,
+        "minRapportProbable": 2.1,
+        "maxRapportProbable": 3
+      },
+      {
+        "numerosParticipant": [
+          10
+        ],
+        "nom": "GOLD O'BOY",
+        "numPmu": 10,
+        "age": 3,
+        "sexe": "HONGRES",
+        "race": "PUR-SANG",
+        "statut": "PARTANT",
+        "placeCorde": 2,
+        "oeilleres": "SANS_OEILLERES",
+        "proprietaire": "HA.HA.PANTALL (S)",
+        "entraineur": "HA.PANTALL (S)",
+        "driver": "T.PICCONE",
+        "driverChange": false,
+        "robe": {
+          "code": "073",
+          "libelleCourt": "BAIMEL",
+          "libelleLong": "BAI MELANGE"
+        },
+        "indicateurInedit": false,
+        "musique": "6p9p7p5p7p(23)0p7p9p4p",
+        "nombreCourses": 12,
+        "nombreVictoires": 1,
+        "nombrePlaces": 3,
+        "nomPere": "ELVSTROEM",
+        "nomMere": "GOLDY HONOR",
+        "nomPereMere": "HIGHEST HONOR",
+        "ordreArrivee": 8,
+        "jumentPleine": false,
+        "engagement": false,
+        "handicapPoids": 580,
+        "poidsConditionMonteChange": false,
+        "distanceChevalPrecedent": {
+          "libelleCourt": "2 L 1/2",
+          "libelleLong": "2 longueurs 1/2",
+          "code": 11,
+          "identifiant": "DEUX_LONGUEURS_ET_DEMIE"
+        },
+        "urlCasaque": "https://www.pmu.fr/back-assets/hippique/casaques/19102024/R2/C5/P10.png",
+        "favoris": false,
+        "allure": "GALOP",
+        "grossePrise": false,
+        "minRapportProbable": 3.5,
+        "maxRapportProbable": 5.4
+      },
+      {
+        "numerosParticipant": [
+          2
+        ],
+        "nom": "ROSADORA",
+        "numPmu": 2,
+        "age": 3,
+        "sexe": "FEMELLES",
+        "race": "PUR-SANG",
+        "statut": "PARTANT",
+        "placeCorde": 1,
+        "oeilleres": "SANS_OEILLERES",
+        "proprietaire": "S.WUILLAUME",
+        "entraineur": "N.BELLANGER (S)",
+        "driver": "G.SIAS",
+        "driverChange": false,
+        "robe": {
+          "code": "020",
+          "libelleCourt": "BAI",
+          "libelleLong": "BAI"
+        },
+        "indicateurInedit": false,
+        "musique": "3p1p0p1p2p1p7p3p2p7p",
+        "nombreCourses": 15,
+        "nombreVictoires": 3,
+        "nombrePlaces": 6,
+        "nomPere": "ROSENDHAL",
+        "nomMere": "CEODORA",
+        "nomPereMere": "EFISIO",
+        "ordreArrivee": 4,
+        "jumentPleine": false,
+        "engagement": false,
+        "handicapPoids": 615,
+        "poidsConditionMonte": 600,
+        "poidsConditionMonteChange": false,
+        "distanceChevalPrecedent": {
+          "libelleCourt": "1 L",
+          "libelleLong": "1 longueur",
+          "code": 1,
+          "identifiant": "UNE_LONGUEUR"
+        },
+        "urlCasaque": "https://www.pmu.fr/back-assets/hippique/casaques/19102024/R2/C5/P2.png",
+        "favoris": false,
+        "allure": "GALOP",
+        "grossePrise": false,
+        "minRapportProbable": 1.8,
+        "maxRapportProbable": 2.4
+      },
+      {
+        "numerosParticipant": [
+          11
+        ],
+        "nom": "L'ETOILE DE FRANCE",
+        "numPmu": 11,
+        "age": 3,
+        "sexe": "FEMELLES",
+        "race": "PUR-SANG",
+        "statut": "PARTANT",
+        "placeCorde": 11,
+        "oeilleres": "SANS_OEILLERES",
+        "proprietaire": "ECURIE VENT D'OUEST",
+        "entraineur": "F.FOUCHER",
+        "driver": "M.JUSTUM",
+        "driverChange": false,
+        "robe": {
+          "code": "020",
+          "libelleCourt": "BAI",
+          "libelleLong": "BAI"
+        },
+        "indicateurInedit": false,
+        "musique": "0p4p2p5p3p7p2p0p(23)8p",
+        "nombreCourses": 12,
+        "nombreVictoires": 1,
+        "nombrePlaces": 6,
+        "nomPere": "MASAR",
+        "nomMere": "L'ETOILE DE MOSCOU",
+        "nomPereMere": "PEINTRE CELEBRE",
+        "ordreArrivee": 5,
+        "jumentPleine": false,
+        "engagement": false,
+        "handicapPoids": 575,
+        "poidsConditionMonteChange": false,
+        "distanceChevalPrecedent": {
+          "libelleCourt": "2 L 1/2",
+          "libelleLong": "2 longueurs 1/2",
+          "code": 11,
+          "identifiant": "DEUX_LONGUEURS_ET_DEMIE"
+        },
+        "urlCasaque": "https://www.pmu.fr/back-assets/hippique/casaques/19102024/R2/C5/P11.png",
+        "favoris": false,
+        "allure": "GALOP",
+        "grossePrise": false,
+        "minRapportProbable": 7.4,
+        "maxRapportProbable": 11
+      },
+      {
+        "numerosParticipant": [
+          6
+        ],
+        "nom": "GUERRIER MYSTERE",
+        "numPmu": 6,
+        "age": 3,
+        "sexe": "HONGRES",
+        "race": "PUR-SANG",
+        "statut": "PARTANT",
+        "placeCorde": 12,
+        "oeilleres": "SANS_OEILLERES",
+        "proprietaire": "SCEA VERLANDE/S.COURCAULT/BLOUIN",
+        "entraineur": "L.GADBIN (S)",
+        "driver": "C.RAIMBAULT",
+        "driverChange": false,
+        "robe": {
+          "code": "001",
+          "libelleCourt": "ALEZAN",
+          "libelleLong": "ALEZAN"
+        },
+        "indicateurInedit": false,
+        "musique": "1p3p0p9p4p5p6p7p",
+        "nombreCourses": 8,
+        "nombreVictoires": 1,
+        "nombrePlaces": 3,
+        "nomPere": "PROFITABLE",
+        "nomMere": "WANDERING HEART",
+        "nomPereMere": "IFFRAAJ",
+        "ordreArrivee": 9,
+        "jumentPleine": false,
+        "engagement": false,
+        "handicapPoids": 600,
+        "poidsConditionMonte": 575,
+        "poidsConditionMonteChange": false,
+        "distanceChevalPrecedent": {
+          "libelleCourt": "5 L",
+          "libelleLong": "5 longueurs",
+          "code": 15,
+          "identifiant": "CINQ_LONGUEURS"
+        },
+        "urlCasaque": "https://www.pmu.fr/back-assets/hippique/casaques/19102024/R2/C5/P6.png",
+        "favoris": false,
+        "allure": "GALOP",
+        "grossePrise": false,
+        "minRapportProbable": 4.4,
+        "maxRapportProbable": 7
+      },
+      {
+        "numerosParticipant": [
+          4
+        ],
+        "nom": "GARMI",
+        "numPmu": 4,
+        "age": 3,
+        "sexe": "FEMELLES",
+        "race": "PUR-SANG",
+        "statut": "PARTANT",
+        "placeCorde": 5,
+        "oeilleres": "SANS_OEILLERES",
+        "proprietaire": "R.SINGARIN",
+        "entraineur": "MME S.GAVILAN",
+        "driver": "F.VERON",
+        "driverChange": false,
+        "robe": {
+          "code": "021",
+          "libelleCourt": "BAI F.",
+          "libelleLong": "BAI FONCE"
+        },
+        "indicateurInedit": false,
+        "musique": "0p0p1p5p6p0p3p1p1p",
+        "nombreCourses": 20,
+        "nombreVictoires": 4,
+        "nombrePlaces": 6,
+        "nomPere": "SHALAA",
+        "nomMere": "ENCIPHERED",
+        "nomPereMere": "BATED BREATH",
+        "ordreArrivee": 6,
+        "jumentPleine": false,
+        "engagement": false,
+        "handicapPoids": 600,
+        "poidsConditionMonteChange": false,
+        "distanceChevalPrecedent": {
+          "libelleCourt": "1 L",
+          "libelleLong": "1 longueur",
+          "code": 1,
+          "identifiant": "UNE_LONGUEUR"
+        },
+        "urlCasaque": "https://www.pmu.fr/back-assets/hippique/casaques/19102024/R2/C5/P4.png",
+        "favoris": false,
+        "allure": "GALOP",
+        "grossePrise": false,
+        "minRapportProbable": 2.3,
+        "maxRapportProbable": 3.4
+      },
+      {
+        "numerosParticipant": [
+          5
+        ],
+        "nom": "REDPEARL",
+        "numPmu": 5,
+        "age": 3,
+        "sexe": "HONGRES",
+        "race": "PUR-SANG",
+        "statut": "PARTANT",
+        "placeCorde": 4,
+        "oeilleres": "OEILLERES_AUSTRALIENNES",
+        "proprietaire": "X.RICHARD",
+        "entraineur": "X.RICHARD",
+        "driver": "A.MADAMET",
+        "driverChange": false,
+        "robe": {
+          "code": "020",
+          "libelleCourt": "BAI",
+          "libelleLong": "BAI"
+        },
+        "indicateurInedit": false,
+        "musique": "5p0p5p2p2p4p(23)0p9p",
+        "nombreCourses": 8,
+        "nombreVictoires": 0,
+        "nombrePlaces": 5,
+        "nomPere": "BIRCHWOOD",
+        "nomMere": "PEARLRED",
+        "nomPereMere": "REDBACK",
+        "ordreArrivee": 7,
+        "jumentPleine": false,
+        "engagement": false,
+        "handicapPoids": 600,
+        "poidsConditionMonteChange": false,
+        "distanceChevalPrecedent": {
+          "libelleCourt": "TETE",
+          "libelleLong": "1 tête",
+          "code": 25,
+          "identifiant": "UNE_TETE"
+        },
+        "urlCasaque": "https://www.pmu.fr/back-assets/hippique/casaques/19102024/R2/C5/P5.png",
+        "favoris": false,
+        "allure": "GALOP",
+        "grossePrise": false,
+        "minRapportProbable": 2.9,
+        "maxRapportProbable": 4.5
+      },
+      {
+        "numerosParticipant": [
+          7
+        ],
+        "nom": "STELLANIA",
+        "numPmu": 7,
+        "age": 3,
+        "sexe": "FEMELLES",
+        "race": "PUR-SANG",
+        "statut": "PARTANT",
+        "placeCorde": 3,
+        "oeilleres": "SANS_OEILLERES",
+        "proprietaire": "JP.DUBOIS/GUY PARIENTE HOLDING",
+        "entraineur": "JPH .DUBOIS",
+        "driver": "C.LECOEUVRE",
+        "driverChange": false,
+        "robe": {
+          "code": "022",
+          "libelleCourt": "BAI BR",
+          "libelleLong": "BAI BRUN"
+        },
+        "indicateurInedit": false,
+        "musique": "1p2p2p6p0p7p(23)7p9p",
+        "nombreCourses": 8,
+        "nombreVictoires": 1,
+        "nombrePlaces": 2,
+        "nomPere": "KENDARGENT",
+        "nomMere": "MAHARANIA",
+        "nomPereMere": "MANDURO",
+        "ordreArrivee": 2,
+        "jumentPleine": false,
+        "engagement": false,
+        "handicapPoids": 595,
+        "poidsConditionMonteChange": false,
+        "distanceChevalPrecedent": {
+          "libelleCourt": "1/2 L",
+          "libelleLong": "1/2 longueur",
+          "code": 3,
+          "identifiant": "DEMI_LONGUEUR"
+        },
+        "urlCasaque": "https://www.pmu.fr/back-assets/hippique/casaques/19102024/R2/C5/P7.png",
+        "favoris": true,
+        "allure": "GALOP",
+        "grossePrise": false,
+        "minRapportProbable": 1.5,
+        "maxRapportProbable": 1.9
+      },
+      {
+        "numerosParticipant": [
+          3
+        ],
+        "nom": "STELLO TALLY",
+        "numPmu": 3,
+        "age": 3,
+        "sexe": "FEMELLES",
+        "race": "PUR-SANG",
+        "statut": "PARTANT",
+        "placeCorde": 6,
+        "oeilleres": "SANS_OEILLERES",
+        "proprietaire": "MME M.BRUERE",
+        "entraineur": "MME M.BRUERE",
+        "driver": "P.REMOUE",
+        "driverChange": false,
+        "robe": {
+          "code": "021",
+          "libelleCourt": "BAI F.",
+          "libelleLong": "BAI FONCE"
+        },
+        "indicateurInedit": false,
+        "musique": "0p8p1p2p9p5p4p2p9p3p",
+        "nombreCourses": 11,
+        "nombreVictoires": 1,
+        "nombrePlaces": 6,
+        "nomPere": "BIRCHWOOD",
+        "nomMere": "AMOUR MALPIC",
+        "nomPereMere": "AZAMOUR",
+        "ordreArrivee": 3,
+        "jumentPleine": false,
+        "engagement": false,
+        "handicapPoids": 610,
+        "poidsConditionMonte": 595,
+        "poidsConditionMonteChange": false,
+        "distanceChevalPrecedent": {
+          "libelleCourt": "15 L",
+          "libelleLong": "15 longueurs",
+          "code": 9,
+          "identifiant": "QUINZE_LONGUEURS"
+        },
+        "urlCasaque": "https://www.pmu.fr/back-assets/hippique/casaques/19102024/R2/C5/P3.png",
+        "favoris": false,
+        "allure": "GALOP",
+        "grossePrise": false,
+        "minRapportProbable": 6.5,
+        "maxRapportProbable": 10
+      },
+      {
+        "numerosParticipant": [
+          8
+        ],
+        "nom": "PICANES",
+        "numPmu": 8,
+        "age": 3,
+        "sexe": "FEMELLES",
+        "race": "PUR-SANG",
+        "statut": "PARTANT",
+        "placeCorde": 9,
+        "oeilleres": "SANS_OEILLERES",
+        "proprietaire": "A.MENARD",
+        "entraineur": "PIER.MENARD",
+        "driver": "H.LEBOUC",
+        "driverChange": false,
+        "robe": {
+          "code": "022",
+          "libelleCourt": "BAI BR",
+          "libelleLong": "BAI BRUN"
+        },
+        "indicateurInedit": false,
+        "musique": "6p6p9p5p7p8p0p5p(23)4p",
+        "nombreCourses": 15,
+        "nombreVictoires": 0,
+        "nombrePlaces": 7,
+        "nomPere": "DARIYAN",
+        "nomMere": "INFINITY LOVE",
+        "nomPereMere": "DUTCH ART",
+        "ordreArrivee": 12,
+        "jumentPleine": false,
+        "engagement": false,
+        "handicapPoids": 590,
+        "poidsConditionMonteChange": false,
+        "distanceChevalPrecedent": {
+          "libelleCourt": "15 L",
+          "libelleLong": "15 longueurs",
+          "code": 9,
+          "identifiant": "QUINZE_LONGUEURS"
+        },
+        "urlCasaque": "https://www.pmu.fr/back-assets/hippique/casaques/19102024/R2/C5/P8.png",
+        "favoris": false,
+        "allure": "GALOP",
+        "grossePrise": false,
+        "minRapportProbable": 2.2,
+        "maxRapportProbable": 3.2
+      }
+    ],
+    "spriteCasaques": [
+      {
+        "heightSize": 19,
+        "url": "https://www.pmu.fr/back-assets/hippique/casaques/19102024/R2/C5/sprite_casaques_19px_size.png",
+        "originalSize": false
+      },
+      {
+        "heightSize": 40,
+        "url": "https://www.pmu.fr/back-assets/hippique/casaques/19102024/R2/C5/sprite_casaques_40px_size.png",
+        "originalSize": false
+      },
+      {
+        "heightSize": 261,
+        "url": "https://www.pmu.fr/back-assets/hippique/casaques/19102024/R2/C5/sprite_casaques_original_size.png",
+        "originalSize": true
+      }
+    ],
+    "rapportsEcurie": [],
+    "dateProgrammeOffset": 7200000,
+    "typePari": "E_SIMPLE_PLACE",
+    "dateMajDirect": {
+      "$numberLong": "1729333251000"
+    },
+    "dateMajDirectOffset": 7200000,
+    "totalEnjeu": 1645655
+  },
+  "scraped_at": {
+    "$date": "2025-08-15T21:26:31.811Z"
+  }
+}
